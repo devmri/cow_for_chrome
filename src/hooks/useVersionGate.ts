@@ -1,0 +1,52 @@
+import { useEffect, useMemo, useState } from 'react'
+import { useDynamicConfig } from '@statsig/react-bindings'
+import { getLocalValue, StorageKey } from '../lib/storage'
+
+export interface VersionGateState {
+  isBlocked: boolean
+  hasUpdate: boolean
+  currentVersion: string
+  minSupportedVersion: string | null
+}
+
+// 重构前变量名: te（版本与更新门禁）
+export function useVersionGate(): VersionGateState {
+  const [currentVersion, setCurrentVersion] = useState('')
+  const [hasUpdate, setHasUpdate] = useState(false)
+  const cfg = useDynamicConfig('chrome_ext_version_info')
+
+  useEffect(() => {
+    const v = chrome.runtime.getManifest().version
+    setCurrentVersion(v)
+    ;(async () => {
+      const flag = await getLocalValue<boolean>(StorageKey.UPDATE_AVAILABLE)
+      setHasUpdate(!!flag)
+    })()
+    const onChanged = (changes: Record<string, chrome.storage.StorageChange>) => {
+      if (changes[StorageKey.UPDATE_AVAILABLE]) {
+        setHasUpdate(Boolean(changes[StorageKey.UPDATE_AVAILABLE].newValue === true))
+      }
+    }
+    chrome.storage.onChanged.addListener(onChanged)
+    return () => chrome.storage.onChanged.removeListener(onChanged)
+  }, [])
+
+  const minSupportedVersion = (cfg?.get('min_supported_version', '') as string) || null
+
+  const isBlocked = useMemo(() => {
+    if (!currentVersion || !minSupportedVersion) return false
+    // 语义化版本比较（简化为按段数字比较）
+    const a = currentVersion.split('.').map(Number)
+    const b = minSupportedVersion.split('.').map(Number)
+    for (let i = 0; i < Math.max(a.length, b.length); i++) {
+      const av = a[i] || 0
+      const bv = b[i] || 0
+      if (av < bv) return true
+      if (av > bv) return false
+    }
+    return false
+  }, [currentVersion, minSupportedVersion])
+
+  return { isBlocked, hasUpdate, currentVersion, minSupportedVersion }
+}
+
