@@ -1,29 +1,18 @@
-/*
-  内容脚本：Agent 视觉指示器（等价还原自 assets/agent-visual-indicator.js-4ldKcBi6.js）
-  - 发光边框 + 居中“Stop Claude”按钮
-  - 支持以下消息：
-    SHOW_AGENT_INDICATORS, HIDE_AGENT_INDICATORS, HIDE_FOR_TOOL_USE, SHOW_AFTER_TOOL_USE
-  - 点击按钮发送 { type: 'STOP_AGENT' } 至后台
-*/
-
-// 重构前变量名: n → glowBorderEl
 let glowBorderEl: HTMLDivElement | null = null
-// 重构前变量名: e → stopContainerEl
+
 let stopContainerEl: HTMLDivElement | null = null
-// 重构前变量名: t → isShown
+
 let isShown = false
-// 重构前变量名: a → hiddenForToolUse
+
 let hiddenForToolUse = false
 
-// 注入一次性样式（keyframes）
 function ensureAnimationStyles(): void {
-  const STYLE_ID = 'claude-agent-animation-styles'
+  const STYLE_ID = 'cow-agent-animation-styles'
   if (document.getElementById(STYLE_ID)) return
   const style = document.createElement('style')
   style.id = STYLE_ID
-  // 与产物一致的关键帧动画
   style.textContent = `
-      @keyframes claude-pulse {
+      @keyframes cow-pulse {
         0% {
           box-shadow: 
             inset 0 0 20px rgba(59, 159, 237, 0.5),
@@ -49,8 +38,7 @@ function ensureAnimationStyles(): void {
 
 function createGlowBorder(): HTMLDivElement {
   const el = document.createElement('div')
-  el.id = 'claude-agent-glow-border'
-  // 与产物一致的样式（直接使用 cssText）
+  el.id = 'cow-agent-glow-border'
   el.style.cssText = `
       position: fixed;
       top: 0;
@@ -61,7 +49,7 @@ function createGlowBorder(): HTMLDivElement {
       z-index: 2147483646;
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
-      animation: claude-pulse 2s ease-in-out infinite;
+      animation: cow-pulse 2s ease-in-out infinite;
       box-shadow: 
         inset 0 0 20px rgba(59, 159, 237, 0.5),
         inset 0 0 40px rgba(59, 159, 237, 0.3),
@@ -72,7 +60,7 @@ function createGlowBorder(): HTMLDivElement {
 
 function createStopContainer(): HTMLDivElement {
   const container = document.createElement('div')
-  container.id = 'claude-agent-stop-container'
+  container.id = 'cow-agent-stop-container'
   container.style.cssText = `
       position: fixed;
       bottom: 32px;
@@ -85,13 +73,12 @@ function createStopContainer(): HTMLDivElement {
       z-index: 2147483647;
     `
   const btn = document.createElement('button')
-  btn.id = 'claude-agent-stop-button'
-  // 内联 SVG 与文案与产物一致
+  btn.id = 'cow-agent-stop-button'
   btn.innerHTML = `
       <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" style="margin-right: 12px; vertical-align: middle;">
         <path d="M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09,84.09,0,0,1,128,212Zm40-112v56a12,12,0,0,1-12,12H100a12,12,0,0,1-12-12V100a12,12,0,0,1,12-12h56A12,12,0,0,1,168,100Z"></path>
       </svg>
-      <span style="vertical-align: middle;">Stop Claude</span>
+      <span style="vertical-align: middle;">Stop cow</span>
     `
   btn.style.cssText = `
       position: relative;
@@ -116,7 +103,6 @@ function createStopContainer(): HTMLDivElement {
       white-space: nowrap;
       margin: 0 auto;
     `
-  // 悬浮态只在显示中时变化（与产物使用 t 判断一致）
   btn.addEventListener('mouseenter', () => {
     if (isShown) {
       btn.style.background = '#F5F4F0'
@@ -150,11 +136,10 @@ function showAgentIndicators(): void {
     stopContainerEl = createStopContainer()
     document.body.appendChild(stopContainerEl)
   }
-  // 下一帧执行入场动效
   requestAnimationFrame(() => {
     if (glowBorderEl) glowBorderEl.style.opacity = '1'
     if (stopContainerEl) {
-      const btn = stopContainerEl.querySelector<HTMLButtonElement>('#claude-agent-stop-button')
+      const btn = stopContainerEl.querySelector<HTMLButtonElement>('#cow-agent-stop-button')
       if (btn) {
         btn.style.transform = 'translateY(0)'
         btn.style.opacity = '1'
@@ -163,19 +148,17 @@ function showAgentIndicators(): void {
   })
 }
 
-// 隐藏并在过渡结束后清理节点
 function hideAgentIndicators(): void {
   if (!isShown) return
   isShown = false
   if (glowBorderEl) glowBorderEl.style.opacity = '0'
   if (stopContainerEl) {
-    const btn = stopContainerEl.querySelector<HTMLButtonElement>('#claude-agent-stop-button')
+    const btn = stopContainerEl.querySelector<HTMLButtonElement>('#cow-agent-stop-button')
     if (btn) {
       btn.style.transform = 'translateY(100px)'
       btn.style.opacity = '0'
     }
   }
-  // 300ms 后若仍处于隐藏态则移除节点
   setTimeout(() => {
     if (!isShown) {
       if (glowBorderEl && glowBorderEl.parentNode) {
@@ -190,7 +173,6 @@ function hideAgentIndicators(): void {
   }, 300)
 }
 
-// 消息协议（等价还原）
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   if (msg?.type === 'SHOW_AGENT_INDICATORS') {
     showAgentIndicators()
@@ -203,7 +185,6 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     return
   }
   if (msg?.type === 'HIDE_FOR_TOOL_USE') {
-    // 记录当前显示状态，并临时隐藏（不改变 isShown）
     hiddenForToolUse = isShown
     if (glowBorderEl) glowBorderEl.style.display = 'none'
     if (stopContainerEl) stopContainerEl.style.display = 'none'
@@ -221,10 +202,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   }
 })
 
-// 页面卸载时清理
 window.addEventListener('beforeunload', () => {
   hideAgentIndicators()
 })
 
-// 供调试：标记注入完成
-// console.debug('[agent-visual-indicator] ready')

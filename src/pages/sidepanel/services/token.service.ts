@@ -1,5 +1,3 @@
-// 原始对象: Qu 及其常量 Gu、Ju
-
 import { Message } from "../types";
 
 type ModelName =
@@ -12,7 +10,6 @@ type ModelName =
 
 const DEFAULT_MODEL: ModelName = "claude-3-5-sonnet-20241022";
 
-// 原始对象: Gu
 const MODEL_CONTEXT_WINDOWS: Record<ModelName, number> = {
   "claude-sonnet-4-20250514": 200000,
   "claude-3-5-sonnet-20241022": 200000,
@@ -22,7 +19,6 @@ const MODEL_CONTEXT_WINDOWS: Record<ModelName, number> = {
   "claude-3-haiku-20240307": 200000,
 };
 
-// 原始对象: Ju
 const MODEL_MAX_OUTPUT_TOKENS: Record<ModelName, number> = {
   "claude-sonnet-4-20250514": 8192,
   "claude-3-5-sonnet-20241022": 8192,

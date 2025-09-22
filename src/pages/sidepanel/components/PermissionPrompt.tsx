@@ -1,4 +1,3 @@
-// 原始函数: By 和 $y
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { ScreenshotWithClick } from "./ScreenshotPreview";
@@ -27,10 +26,6 @@ interface PermissionPromptProps {
   disableAlwaysAllow?: boolean;
 }
 
-/**
- * A prompt shown to the user to request permission for an action.
- * @original By
- */
 export function PermissionPrompt({
   tool,
   url,
@@ -114,14 +109,14 @@ export function PermissionPrompt({
           {tool === ToolAction.DOMAIN_TRANSITION && fromDomain && toDomain ? (
             <>
               <p className="font-base-bold text-text-100">
-                Claude paused due to a navigation from{" "}
+                Cow paused due to a navigation from{" "}
                 <strong>{fromDomain}</strong> to <strong>{toDomain}</strong>
               </p>
             </>
           ) : (
             <>
               <p className="font-base-bold text-text-100">
-                Claude wants to {actionVerb(tool)}:
+                Cow wants to {actionVerb(tool)}:
               </p>
               <p className="font-claude-response-code text-text-200">
                 {hostname}
@@ -199,7 +194,7 @@ export function PermissionPrompt({
         )}
 
         <p className="font-small text-text-500 text-[10px] px-1 mt-1">
-          Claude will not purchase items, create accounts, or bypass captchas
+          Cow will not purchase items, create accounts, or bypass captchas
           without input. Revoke site permissions in{" "}
           <button
             onClick={() => chrome.runtime.openOptionsPage()}

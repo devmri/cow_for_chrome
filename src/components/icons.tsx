@@ -1,8 +1,5 @@
 import React, { forwardRef } from 'react';
 
-// --- Helper Functions & Type Definitions ---
-
-// A simple utility for conditional class names, to replicate the `h` function.
 const cn = (...classes: string[]) => classes.filter(Boolean).join(' ');
 
 export interface IconProps {
@@ -19,11 +16,6 @@ export interface IconProps {
 }
 
 // --- Base Wrapper Components ---
-
-/**
- * A base wrapper for simple, single-path icons.
- * This is a direct reconstruction of the `Ag` component from the original code.
- */
 const Wrapper = ({
   size = 20,
   vectorSizeOverride,
@@ -62,10 +54,6 @@ const Wrapper = ({
   );
 };
 
-/**
- * A base wrapper for multi-weight icons (like Phosphor icons).
- * This is a direct reconstruction of the `d` component from the original code.
- */
 const PhosphorIcon = forwardRef<SVGSVGElement, IconProps & { weights: Map<string, React.ReactNode> }>(
   ({ weights, weight = 'regular', color, size = '1em', mirrored = false, alt, ...rest }, ref) => {
     const svgContent = weights.get(weight) || weights.get('regular');
@@ -91,8 +79,6 @@ const PhosphorIcon = forwardRef<SVGSVGElement, IconProps & { weights: Map<string
 );
 PhosphorIcon.displayName = 'PhosphorIcon';
 
-
-// --- Icon Data Maps (from ng, rg, sg, etc.) ---
 
 const articleNyTimesIconWeights = new Map([
   ["bold", <><path d="M156,92a12,12,0,0,1,12-12h64a12,12,0,0,1,0,24H168A12,12,0,0,1,156,92Zm76,28H168a12,12,0,0,0,0,24h64a12,12,0,0,0,0-24Zm0,40H80a12,12,0,0,0,0,24H232a12,12,0,0,0,0-24Zm0,40H80a12,12,0,0,0,0,24H232a12,12,0,0,0,0-24ZM96,144a12,12,0,0,0,0-24H92V68h24v4a12,12,0,0,0,24,0V56a12,12,0,0,0-12-12H32A12,12,0,0,0,20,56V72a12,12,0,0,0,24,0V68H68v52H64a12,12,0,0,0,0,24Z" /></>,],
@@ -225,10 +211,6 @@ const StopIcon = (props: IconProps) => (
   </Wrapper>
 );
 
-/**
- * A graphical representation of the "ESC" text, typically for UI elements.
- * Reconstructed from the `Uy` component.
- */
 const EscKeyIcon = ({ className = "" }) => (
   <svg
     width="21"
@@ -265,11 +247,6 @@ const CommandKeySvg = ({ size = 16, className = "" }) => (
   </svg>
 );
 
-/**
- * A special, multi-color, hand-drawn style cursor icon.
- * This component has a unique size and viewBox and does not use standard wrappers.
- * Reconstructed from the `tx` component.
- */
 const SkipPermissionsIllustration = ({ className = "" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -333,9 +310,9 @@ export {
   ThumbsUpIcon,
   UploadIcon,
   WarningTriangleIcon,
-  TypingIndicatorSvg, // Oy
+  TypingIndicatorSvg,
   StopIcon,
-  EscKeyIcon, // Uy
-  CommandKeySvg, // Fy
-  SkipPermissionsIllustration, // tx
+  EscKeyIcon,
+  CommandKeySvg,
+  SkipPermissionsIllustration,
 };

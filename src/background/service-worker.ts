@@ -1,25 +1,16 @@
-// 等价还原自 assets/service-worker.ts-DPbLNy8i.js
-// 注意：仅还原业务逻辑，第三方/打包器辅助代码不重建
 
 import {
-  // 重构前变量名: tn（原导出名 e）
   startOAuthFlow,
-  // 重构前变量名: Nt（原导出名 s）
   setLocalKey,
-  // 重构前变量名: Ut（原导出名 S）
   StorageKey,
-  // 重构前变量名: en（原导出名 h）
   clearStorageForLogout,
-  // 重构前变量名: Zt（原导出名 j）
   handleOAuthRedirect,
   getApiBaseUrl,
 } from "../lib/sentryService";
 
-// 重构前变量名: c
-// 作用：为 API 请求追加自定义 User-Agent（基于 declarativeNetRequest 会话规则）
 async function setupApiUserAgentHeader(): Promise<void> {
   const apiBaseUrl = await getApiBaseUrl();
-  const userAgent = `${`claude-browser-extension/${chrome.runtime.getManifest().version} (external)`} ${navigator.userAgent} `; // 末尾空格与产物保持一致
+  const userAgent = `${`cow-browser-extension/${chrome.runtime.getManifest().version} (external)`} ${navigator.userAgent} `;
 
   const rules: chrome.declarativeNetRequest.Rule[] = [
     {
@@ -52,8 +43,6 @@ async function setupApiUserAgentHeader(): Promise<void> {
 }
 
 
-// 重构前变量名: d
-// 作用：打开当前 Tab 的侧边栏页面
 async function openSidePanelForTab(tabId: number): Promise<void> {
   const panelPath = `src/sidepanel.html?tabId=${encodeURIComponent(tabId)}`;
 
@@ -67,8 +56,6 @@ async function openSidePanelForTab(tabId: number): Promise<void> {
 }
 
 
-// 重构前变量名: m
-// 作用：让内容脚本隐藏 Agent 高亮/指示器
 async function hideAgentIndicators(tabId: number): Promise<void> {
   try {
     await chrome.tabs.sendMessage(tabId, { type: "HIDE_AGENT_INDICATORS" });
@@ -77,15 +64,11 @@ async function hideAgentIndicators(tabId: number): Promise<void> {
   }
 }
 
-// 重构前变量名: u
-// 作用：点击按钮/快捷键切换打开侧边栏
 async function handleOpenSidePanel(tab: chrome.tabs.Tab): Promise<void> {
   const tabId = tab.id;
   if (tabId) await openSidePanelForTab(tabId);
 }
 
-// 重构前变量名: h
-// 作用：执行计划任务（创建目标标签页 + 弹出独立侧边栏窗口 + 等待加载后下发执行指令）
 async function executeScheduledTask(
   task: {
     id?: string;
@@ -119,7 +102,6 @@ async function executeScheduledTask(
     focused: true,
   });
 
-  // 轮询等待标签页加载完成后再发送执行指令
   await new Promise<void>((resolve) => {
     const check = async () => {
       try {
@@ -139,7 +121,6 @@ async function executeScheduledTask(
           setTimeout(check, 500);
         }
       } catch {
-        // 标签页可能被关闭，直接结束
         resolve();
       }
     };
@@ -147,7 +128,6 @@ async function executeScheduledTask(
   });
 }
 
-// onInstalled：清理更新标记、更新 UA 规则，首次安装触发 OAuth 授权
 chrome.runtime.onInstalled.addListener(async (details) => {
   chrome.storage.local.remove(["updateAvailable"]);
   await setupApiUserAgentHeader();
@@ -156,7 +136,6 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   }
 });
 
-// onStartup：更新 UA 规则
 chrome.runtime.onStartup.addListener(async () => {
   await setupApiUserAgentHeader();
 });
@@ -168,10 +147,8 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
   }
 });
 
-// 工具栏图标点击：打开侧边栏
 chrome.action.onClicked.addListener(handleOpenSidePanel);
 
-// 快捷键：toggle-side-panel → 打开当前活动标签页的侧边栏
 chrome.commands.onCommand.addListener((command) => {
   if (command === "toggle-side-panel") {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -181,12 +158,9 @@ chrome.commands.onCommand.addListener((command) => {
   }
 });
 
-// 更新可用：写入本地标记
 chrome.runtime.onUpdateAvailable.addListener(() => {
   setLocalKey(StorageKey.UPDATE_AVAILABLE, true);
 });
-
-// 内部消息处理
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   (async () => {
     if (message.type === "open_side_panel") {
@@ -204,7 +178,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
               chrome.runtime.sendMessage(
                 { type: "POPULATE_INPUT_TEXT", prompt: message.prompt },
                 () => {
-                  // 与编译产物一致：通过 lastError 判断失败
                   if (chrome.runtime.lastError) {
                     reject(new Error(chrome.runtime.lastError.message));
                   } else {
@@ -251,7 +224,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         await clearStorageForLogout();
         sendResponse({ success: true });
       } catch {
-        // 与产物一致：忽略错误
       }
       return;
     }
@@ -271,7 +243,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return true;
 });
 
-// 标签页关闭：隐藏相关指示器
 chrome.tabs.onRemoved.addListener(async (tabId) => {
   await hideAgentIndicators(tabId);
 });
@@ -297,7 +268,6 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   }
 });
 
-// 外部消息（externally_connectable）
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
   (async () => {
     if (message.type === "oauth_redirect") {

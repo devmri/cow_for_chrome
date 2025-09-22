@@ -1,5 +1,3 @@
-// 原始类: hd
-
 import { getAccessToken } from "../../../lib/sentryService";
 import { getHostname, normalizeDomain } from "../utils/url";
 

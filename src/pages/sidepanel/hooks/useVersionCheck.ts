@@ -1,4 +1,3 @@
-// 原始函数: xd
 
 import { useState, useEffect } from "react";
 import { getLocalValue, StorageKey } from "../../../lib/storage";
@@ -10,11 +9,6 @@ interface VersionInfo {
   minSupportedVersion: string | null;
 }
 
-/**
- * Hook to check the extension version against the minimum supported version from Statsig.
- * @original xd
- * @returns {VersionInfo} Object containing version status.
- */
 export function useVersionCheck(): VersionInfo {
   const [currentVersion, setCurrentVersion] = useState("");
   const [hasUpdate, setHasUpdate] = useState(false);

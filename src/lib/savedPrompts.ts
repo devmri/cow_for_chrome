@@ -10,8 +10,6 @@ export interface SavedPrompt {
   usageCount: number;
   lastUsedAt?: number;
 }
-
-// 原类名: pS
 export class SavedPromptsService {
   static async getAllPrompts(): Promise<SavedPrompt[]> {
     return (await getLocalValue<SavedPrompt[]>(StorageKey.SAVED_PROMPTS)) || [];

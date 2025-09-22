@@ -1,10 +1,4 @@
-/*
-  存储层封装（Chrome storage.local 的 Promise/类型化封装）
-  - 提供统一的键枚举与常用读写接口
-  - 对外只暴露语义化 API，隐藏回调式原始接口
-*/
 
-// 存储键枚举（与编译产物保持一致）
 export enum StorageKey {
   // 认证相关
   ACCESS_TOKEN = 'accessToken',
@@ -12,7 +6,7 @@ export enum StorageKey {
   TOKEN_EXPIRY = 'tokenExpiry',
   OAUTH_STATE = 'oauthState',
   CODE_VERIFIER = 'codeVerifier',
-  // 其他设置（与编译产物对齐）
+  // 其他设置
   ANTHROPIC_API_KEY = 'anthropicApiKey',
   ANTHROPIC_API_URL = 'anthropicApiUrl',
   TELEMETRY_DISABLED = 'telemetryDisabled',

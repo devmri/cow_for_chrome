@@ -1,12 +1,6 @@
-// 重构前变量名: Dn（ToolAction）
-// 重构前变量名: Tn（PermissionAction）
-// 重构前变量名: An（PermissionDuration）
-// 重构前变量名: Rn（actionVerb）
-// 重构前变量名: Ln（permissionService）
 
 import { getLocalValue, setLocalObject, StorageKey } from "./storage";
 
-// 工具操作类型（与产物字符串值等价）
 export enum ToolAction {
   NAVIGATE = "navigate",
   READ_PAGE_CONTENT = "read_page_content",
@@ -15,19 +9,16 @@ export enum ToolAction {
   DOMAIN_TRANSITION = "domain_transition",
 }
 
-// 许可结果（允许/拒绝）
 export enum PermissionAction {
   ALLOW = "allow",
   DENY = "deny",
 }
 
-// 许可时长（一次/总是）
 export enum PermissionDuration {
   ONCE = "once",
   ALWAYS = "always",
 }
 
-// 权限作用域
 export type NetlocScope = { type: "netloc"; netloc: string };
 export type DomainTransitionScope = {
   type: "domain_transition";
@@ -175,7 +166,7 @@ export class PermissionsManager {
     this.clearCache();
   }
 
-  // 拒绝（仅对 ALWAYS 持久化；与产物等价）
+  // 拒绝（仅对 ALWAYS 持久化）
   async denyPermission(
     scope: PermissionScope,
     duration: PermissionDuration
@@ -216,7 +207,7 @@ export class PermissionsManager {
     }
   }
 
-  // 与编译产物等价：手动刷新本地缓存（重构前方法名: loadPermissions）
+  // 与编译产物等价：手动刷新本地缓存
   async refreshFromStorage(): Promise<void> {
     await this.loadPermissions();
   }

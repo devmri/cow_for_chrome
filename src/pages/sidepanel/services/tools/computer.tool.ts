@@ -1,4 +1,3 @@
-// 原始工具: od
 
 import {
   Tool,
@@ -12,7 +11,6 @@ import { checkDomainChange } from "../../utils/url";
 import { scaleCoordinates } from "../../utils/geometry";
 import { ToolAction } from "../../../../lib/permissions";
 
-// 原始函数: id
 async function performClick(
   tabId: number,
   args: { action: string; coordinate?: [number, number] },
@@ -56,7 +54,6 @@ async function performClick(
   }
 }
 
-// 原始函数: ad
 async function performScreenshot(tabId: number): Promise<ToolOutput> {
   try {
     const result = await debuggerService.screenshot(tabId);
@@ -73,7 +70,6 @@ async function performScreenshot(tabId: number): Promise<ToolOutput> {
   }
 }
 
-// 原始函数: ld
 async function getScrollPosition(
   tabId: number,
 ): Promise<{ x: number; y: number }> {

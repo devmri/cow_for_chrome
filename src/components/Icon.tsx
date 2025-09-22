@@ -12,7 +12,6 @@ export interface IconProps {
   children: React.ReactNode;
 }
 
-// 原组件名: ub
 export function Icon({
   size = 20,
   vectorSizeOverride,

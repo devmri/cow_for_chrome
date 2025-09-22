@@ -28,7 +28,6 @@ export type OptionsTab =
   | "scheduled"
   | "testdata";
 
-// 导航按钮（重构前变量名: ar）
 function NavItem({
   children,
   isActive,
@@ -54,7 +53,6 @@ function NavItem({
   );
 }
 
-// 主容器（重构前变量名: rr）
 function Container({
   children,
   className,
@@ -77,7 +75,6 @@ function Container({
   );
 }
 
-// 头部（重构前变量名: or）
 function PageHeader({
   children,
   className,
@@ -145,7 +142,6 @@ function PageHeader({
   );
 }
 
-// API Key 配置（重构前变量名: er）
 function ApiConfig({
   apiKey,
   apiUrl,
@@ -230,13 +226,9 @@ function ApiConfig({
   );
 }
 
-// Telemetry controls removed
-
-// 主页面（重构前变量名: sr）
 export function OptionsPage() {
   const { userProfile, isAuthenticated } = useCurrentAccount();
   const { resetAnalytics } = useAnalytics();
-  // Gates removed: default values
   const scheduledGate = true;
   const showEmailGate = true;
   const defaultDebugGate = false;
@@ -373,7 +365,6 @@ export function OptionsPage() {
     <Fragment>
       <PageHeader
         large
-        // 重构前变量名: or（编译产物条件：isAuthenticated || apiKey）
         mdTitle={showContent ? "Cow for Chrome settings" : undefined}
         sticky
       >

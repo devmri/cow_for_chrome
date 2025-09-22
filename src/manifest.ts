@@ -1,8 +1,3 @@
-// 说明：此 Manifest 基于原始扩展的配置等价还原，
-// - 路径改为指向 src 下的源码入口，由 @crxjs/vite-plugin 负责编译与重写
-// - 为避免与现网扩展完全重名产生混淆，这里略作标注（Research Skeleton）
-
-// 在开发模式下需要允许 Vite HMR 的 WebSocket 连接（ws://localhost:*）
 const isDev =
   process.env.NODE_ENV === 'development' ||
   process.env.MODE === 'development' ||
@@ -75,12 +70,9 @@ const manifest: chrome.runtime.ManifestV3 = {
       description: "Toggle Claude side panel",
     },
   },
-  // 侧边栏默认页面（与编译产物等价，并允许从工具栏打开）
   side_panel: {
     default_path: "src/sidepanel.html",
   },
-  // 与原始扩展保持一致，便于研究同一扩展 ID 行为（如产生冲突可暂时删除）
-  // key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjU1XnLPoasGVmZU42K3h6S+sQhkogfcoLPbIcrWH5Oo8QoInBIugkew/7cWaEFySyQrkaEBe1fjeS/rlAqd3r778dKcTvDZcXmj0VVX0Fi1i8tnkarurceGKGdVxfkL7e30nwfgwoPxj3H8OQbsbxFcBWGVtcFekmdpiyaxwz6o4yXIWColfAxh9K2yToOZkoAS5GvgGvTexiCh1gYy++eFdk6C61mcFsyDdoGQtduhGEaX0zZ9uAW1jX4JTPmHV3kEFrZu/WVBl7Obw+Jk/osoHMdmghVNy6SCB8/6mcgmxkP9buPrNUZgYP6n0x5dqEJ2Ecww/lb1Zd4nQf4XGOwIDAQAB",
   content_security_policy: {
     // 开发模式拼接 ws://localhost:* 以允许 Vite HMR；打包模式不包含这些例外
     extension_pages:

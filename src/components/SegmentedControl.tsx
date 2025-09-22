@@ -16,9 +16,6 @@ interface SegmentedControlProps {
   testId?: string;
 }
 
-/**
- * 分段控制器（重构前变量名: De）
- */
 export function SegmentedControl({
   options,
   value,

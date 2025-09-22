@@ -1,5 +1,3 @@
-// 原始函数: ox
-
 import React, { useState } from 'react';
 import { Message } from '../types';
 import { ThumbsUp, ThumbsDown, X, ChevronDown } from 'lucide-react';

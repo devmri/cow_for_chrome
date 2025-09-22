@@ -1,4 +1,3 @@
-// 原始函数: Wy
 
 import React from 'react';
 import { EyeIcon as ShieldIconSolid, FilterIcon as SparkleIcon, WarningTriangleIcon } from '../../../components/icons';
@@ -9,10 +8,6 @@ interface OnboardingScreenProps {
 
 const LEARN_MORE_URL = "https://support.anthropic.com/en/articles/12012173-getting-started-with-claude-for-chrome#h_d35ef0174c";
 
-/**
- * The initial onboarding screen that explains risks and asks for user consent.
- * @original Wy
- */
 export function OnboardingScreen({ onAccept }: OnboardingScreenProps) {
     return (
         <div className="w-full h-screen bg-bg-100 flex items-center justify-center p-5">

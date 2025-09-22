@@ -1,13 +1,8 @@
-// 原始函数: vd
 
 import React, { useState } from "react";
 import LoginCta from "../../../components/LoginCta";
 import { setLocalObject, StorageKey } from "../../../lib/storage";
 
-/**
- * A screen that shows a Login Call-to-Action.
- * @original vd
- */
 export function LoginCtaScreen() {
   const [mocking, setMocking] = useState(false);
 

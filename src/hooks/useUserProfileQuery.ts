@@ -1,8 +1,6 @@
-// original var: Cc
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../utils/apiClient";
 
-// 假设的用户Profile类型，实际项目中应定义
 interface UserProfile {
   account: {
     uuid: string;

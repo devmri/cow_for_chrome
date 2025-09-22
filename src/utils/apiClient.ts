@@ -1,4 +1,4 @@
-// original var: Ec
+
 import { getAccessToken, getApiBaseUrl } from "../lib/sentryService";
 
 class ApiClient {

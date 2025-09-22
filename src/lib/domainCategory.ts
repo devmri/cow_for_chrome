@@ -1,6 +1,3 @@
-// 域名分类服务（等价还原 assets 内 I 类）
-// - 缓存 + TTL
-// - 从 Anthropic API 拉取分类
 
 import { getAccessToken, getEnvConfig } from './sentryService'
 

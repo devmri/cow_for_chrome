@@ -1,5 +1,3 @@
-// 原始对象: dd
-
 import { ToolAction } from "../../../../lib/permissions";
 import { Tool, ToolContext, ToolOutput, PermissionRequest } from "../../types";
 

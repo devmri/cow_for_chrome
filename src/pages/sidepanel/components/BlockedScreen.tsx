@@ -1,12 +1,7 @@
-// 原始函数: Gy
 
 import React from 'react';
 import { useDarkMode } from '../hooks/useDarkMode';
 
-/**
- * A screen indicating that Claude cannot access the current page.
- * @original Gy
- */
 export function BlockedScreen() {
     const isDarkMode = useDarkMode();
     return (
@@ -20,7 +15,7 @@ export function BlockedScreen() {
                     />
                 </div>
                 <h2 className="font-large-bold text-text-100 mt-[22px]">Can't access this page</h2>
-                <p className="font-base text-text-300 mt-[7px]">Claude cannot assist with the content on this page.</p>
+                <p className="font-base text-text-300 mt-[7px]">Cow cannot assist with the content on this page.</p>
             </div>
         </div>
     );

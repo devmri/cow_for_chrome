@@ -1,9 +1,4 @@
-// 原始对象: Ku, Xu
 
-/**
- * Mapping of key combinations on macOS to their corresponding editor commands.
- * @original Ku
- */
 export const MAC_KEY_COMMANDS: Record<string, string | string[]> = {
   backspace: "deleteBackward",
   enter: "insertNewline",
@@ -13,7 +8,7 @@ export const MAC_KEY_COMMANDS: Record<string, string | string[]> = {
   arrowup: "moveUp",
   arrowdown: "moveDown",
   arrowleft: "moveLeft",
-  arrowRight: "moveRight", // Note: Original was arrowRight, corrected casing
+  arrowRight: "moveRight",
   up: "moveUp",
   down: "moveDown",
   left: "moveLeft",
@@ -165,10 +160,6 @@ export interface KeyDefinition {
   isKeypad?: boolean;
 }
 
-/**
- * Mapping of key names to their detailed properties for `chrome.debugger`.
- * @original Xu
- */
 export const KEY_DEFINITIONS: Record<string, KeyDefinition> = {
   enter: { key: "Enter", code: "Enter", keyCode: 13, text: "\r" },
   return: { key: "Enter", code: "Enter", keyCode: 13, text: "\r" },

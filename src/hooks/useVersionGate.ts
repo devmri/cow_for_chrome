@@ -8,7 +8,6 @@ export interface VersionGateState {
   minSupportedVersion: string | null
 }
 
-// 重构前变量名: te（版本与更新门禁）
 export function useVersionGate(): VersionGateState {
   const [currentVersion, setCurrentVersion] = useState('')
   const [hasUpdate, setHasUpdate] = useState(false)
@@ -29,11 +28,10 @@ export function useVersionGate(): VersionGateState {
     return () => chrome.storage.onChanged.removeListener(onChanged)
   }, [])
 
-  const minSupportedVersion = null
+  const minSupportedVersion: any = null;
 
   const isBlocked = useMemo(() => {
     if (!currentVersion || !minSupportedVersion) return false
-    // 语义化版本比较（简化为按段数字比较）
     const a = currentVersion.split('.').map(Number)
     const b = minSupportedVersion.split('.').map(Number)
     for (let i = 0; i < Math.max(a.length, b.length); i++) {

@@ -13,9 +13,6 @@ interface DropdownMenuProps {
   unstyledTrigger?: boolean;
 }
 
-/**
- * 下拉菜单容器（重构前变量名: Ka / Ua）
- */
 export function DropdownMenu({
   trigger,
   children,
@@ -74,9 +71,6 @@ interface DropdownMenuItemProps extends Dropdown.DropdownMenuItemProps {
   className?: string;
 }
 
-/**
- * 下拉菜单条目（重构前变量名: Ga）
- */
 export const DropdownMenuItem = React.forwardRef<HTMLDivElement, DropdownMenuItemProps>(
   ({ children, icon, danger, disabled, className, ...props }, ref) => (
     <Dropdown.Item
@@ -103,9 +97,6 @@ export const DropdownMenuItem = React.forwardRef<HTMLDivElement, DropdownMenuIte
 
 DropdownMenuItem.displayName = "DropdownMenuItem";
 
-/**
- * 分隔线（重构前变量名: wa）
- */
 export function DropdownMenuSeparator() {
   return <Dropdown.Separator className="h-px bg-border-200 my-1" />;
 }

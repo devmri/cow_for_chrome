@@ -98,7 +98,6 @@
 /* 基础 CSS 变量（占位默认值，主题可按需再覆盖） */
 @layer base {
   :root {
-    /* 字体变量：与原始产物 Main-D70SQRH0.css 一致 */
     --font-ui: "Styrene B LC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --font-ui-serif: "Copernicus", Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Courier New", monospace;

@@ -11,10 +11,6 @@ export interface UseAuthTokensResult {
   refreshTokenIfNeeded: () => Promise<void>;
 }
 
-/**
- * 读取/监听认证令牌与 Anthropic API Key 的 Hook，逻辑与编译产物等价。
- * 重构前变量名: Jc（useAuthTokens）
- */
 export function useAuthTokens(): UseAuthTokensResult {
   const [needsOAuth, setNeedsOAuth] = useState(true);
   const [isLoading, setIsLoading] = useState(true);

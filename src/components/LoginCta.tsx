@@ -1,10 +1,6 @@
-// 重构前的变量名: Fc（登录按钮与提示 UI 组件）
-// 说明：严格等价还原，保持样式与交互逻辑不变，仅将打包器生成的变量/运行时（m/S）改为规范的 React 写法
 import React, { Fragment, useState } from "react";
 import { startOAuthFlow } from "../lib/sentryService";
 
-// 重构前的变量名: jc（SVG 图标）
-// 说明：按原路径与属性等价还原，仅命名语义化
 const LoginArrowIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -20,10 +16,8 @@ const LoginArrowIcon: React.FC = () => (
   </svg>
 );
 
-// 等价还原组件：点击触发 OAuth 登录；加载态与样式与产物完全一致
-// @origin: Fc
 export const LoginCta: React.FC = () => {
-  const [loading, setLoading] = useState(false); // 重构前: [e, t] = S.useState(!1)
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="flex flex-col items-center">
@@ -46,19 +40,17 @@ export const LoginCta: React.FC = () => {
           letterSpacing: "-0.08px",
         }}
       >
-        Cow for Chrome is available to a
+        Use Claude api key
         <br />
-        limited set of Max plan subscribers
+        to login
       </p>
 
       <button
         onClick={async () => {
           setLoading(true);
           try {
-            // 重构前调用: startOAuthFlow()
             await startOAuthFlow();
           } catch (_) {
-            // 保持与产物一致：忽略错误，不抛出
           } finally {
             setLoading(false);
           }

@@ -6,7 +6,6 @@ import { createRoot } from "react-dom/client";
 import { AppProviders } from "../../providers/AppProvider";
 import { OptionsPage } from "./OptionsPage";
 
-// 等价还原：严格保持编译产物中的渲染结构（StrictMode + Provider + 页面）
 const rootEl = document.getElementById("root");
 if (rootEl) {
   createRoot(rootEl).render(

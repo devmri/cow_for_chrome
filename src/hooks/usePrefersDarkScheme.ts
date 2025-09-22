@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 
-// 浏览器主题偏好监听（重构前: hy）
 export function usePrefersDarkScheme(): boolean {
   const [isDark, setIsDark] = useState(false)
 

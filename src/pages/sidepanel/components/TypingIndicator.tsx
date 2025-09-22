@@ -1,12 +1,6 @@
-// 原始函数: Vy
-
 import React, { useRef, useEffect } from "react";
 import { TypingIndicatorSvg } from "../../../components/icons";
 
-/**
- * An animated typing indicator.
- * @original Vy
- */
 export function TypingIndicator() {
   const ref = useRef<HTMLDivElement>(null);
 

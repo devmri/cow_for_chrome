@@ -1,5 +1,3 @@
-// 原始函数: Iy (基于Radix UI Tooltip的封装)
-
 import React from "react";
 import {
   TooltipProvider,
@@ -26,10 +24,6 @@ interface TooltipProps {
   open?: boolean;
 }
 
-/**
- * A customizable tooltip component built on top of Radix UI.
- * @original Iy
- */
 export function CustomTooltip({
   children,
   tooltipContent,

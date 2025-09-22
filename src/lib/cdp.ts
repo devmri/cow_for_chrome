@@ -1,10 +1,3 @@
-// CDP 助手：等价还原 sidepanel 资产中的 z/B 功能子集
-// - attach/detach 调试器
-// - 发送 CDP 命令
-// - 鼠标点击/滚轮/键盘/插入文本
-// - 截图并按 token/像素约束缩放
-// - 维护截图上下文用于坐标缩放
-
 type KeyDef = {
   key: string
   code: string
@@ -219,7 +212,6 @@ class CDPHelper {
     for (const m of mods) modBits |= map[m] || 0
     const kd = this.getKeyCode(key)
     if (!kd) throw new Error(`Unknown key: ${chord}`)
-    // Mac 上根据组合键传入 commands，等价资产中的 U 映射
     let commands: string[] | undefined
     if (this.isMac) {
       const cmd = MAC_COMMANDS[chord.toLowerCase()]
@@ -298,8 +290,6 @@ class CDPHelper {
 export const cdp = new CDPHelper()
 export const computerContexts = contexts
 
-// Mac 平台组合键 → WebKit Commands（等价资产中的 U）
-// 仅在 Mac 下传入 commands，可影响编辑器行为（选择/删除/滚动等）
 const MAC_COMMANDS: Record<string, string | string[]> = {
   backspace: 'deleteBackward',
   enter: 'insertNewline',
@@ -365,7 +355,6 @@ const MAC_COMMANDS: Record<string, string | string[]> = {
   'shift+cmd+z': 'redo',
 }
 
-// 键位别名表（等价资产中的 Z，覆盖常见键与符号/小键盘）
 const KEY_ALIASES: Record<string, KeyDef> = {
   enter: { key: 'Enter', code: 'Enter', keyCode: 13, text: '\r' },
   return: { key: 'Enter', code: 'Enter', keyCode: 13, text: '\r' },

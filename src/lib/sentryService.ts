@@ -1,25 +1,4 @@
-/*
-  等价还原：封装原 SW 依赖的工具与常量
-  - 原始导入源（编译产物）: temp/sentryService.js（对应旧导出别名）
-  - 接入真实第三方包（Sentry、Statsig），保持接口与时序一致
 
-  导出映射（原始 → 还原后）
-  - Ut as S           → StorageKey（从 ./storage 重导出）
-  - Mt as a           → getLocalValue（从 ./storage 重导出）
-  - s  as b           → getEnvConfig
-  - Xt as c           → ensureValidAccessToken
-  - Kt as d           → getLocalObject（从 ./storage 重导出）
-  - tn as e           → startOAuthFlow
-  - Wt as f           → initStatsig
-  - Qt as g           → getAccessToken
-  - en as h           → clearStorageForLogout
-  - Ki as i           → initSentryForExtension
-  - Zt as j           → handleOAuthRedirect
-  - Nt as s           → setLocalKey（从 ./storage 重导出）
-*/
-
-// Telemetry and gating removed
-// 存储与键枚举抽离到独立模块
 import {
   StorageKey,
   getLocalObject,
@@ -28,36 +7,31 @@ import {
   getAnonymousId,
   getLocalValue,
 } from "./storage";
-// 兼容性导出（逐个标注原变量名/导出别名）：
-// 重构前变量名: Ut（原导出名 S）
 export { StorageKey } from "./storage";
-// 重构前变量名: Nt（原导出名 s）
-export { setLocalKey } from "./storage";
-// 重构前变量名: Mt（原导出名 a）
-export { getLocalValue } from "./storage";
-// 重构前变量名: Kt（原导出名 d）
-export { getLocalObject } from "./storage";
-// 说明：setLocalObject / removeLocal 为内部使用；为保持与原始导出集合一致，此处不再从本模块导出
 
-// 重构前变量名: Ki（原导出名 i）
+export { setLocalKey } from "./storage";
+
+export { getLocalValue } from "./storage";
+
 export function initSentryForExtension(): void {
   // no-op
 }
 
-// ===== 环境配置（还原自编译产物 p()） =====
 const DEV_OAUTH = {
   AUTHORIZE_URL: "https://claude.ai/oauth/authorize",
   TOKEN_URL: "https://console.anthropic.com/v1/oauth/token",
   SCOPES_STR: "user:profile user:inference",
   CLIENT_ID: "54511e87-7abf-4923-9d84-d6f24532e871",
   REDIRECT_URI:
-    "chrome-extension://aodaaaaehghpnpceiagoejlhplogbfen/oauth_callback.html",
+  // 改成自己的扩展id
+    "chrome-extension://cmikgmijoglgopnlbhjjpoipebhlbmoa/oauth_callback.html",
 };
 const PROD_OAUTH = {
   ...DEV_OAUTH,
   CLIENT_ID: "dae2cad8-15c5-43d2-9046-fcaecc135fa4",
   REDIRECT_URI:
-    "chrome-extension://aodaaaaehghpnpceiagoejlhplogbfen/oauth_callback.html",
+  // 改成自己的扩展id
+    "chrome-extension://cmikgmijoglgopnlbhjjpoipebhlbmoa/oauth_callback.html",
 };
 const KEYMAP = { production: {}, development: {} };
 export type EnvConfig = {
@@ -65,9 +39,8 @@ export type EnvConfig = {
   apiBaseUrl: string;
   oauth: typeof DEV_OAUTH;
 };
-// 重构前变量名: s（原导出名 b）
+
 export function getEnvConfig(): EnvConfig {
-  // 与产物一致：固定为 production
   const environment: "production" | "development" = "production";
   const keys = KEYMAP[environment];
   const oauth = environment === "production" ? PROD_OAUTH : DEV_OAUTH;
@@ -100,12 +73,10 @@ function getExtensionVersion(): string {
   }
 }
 
-// ===== 令牌与用户信息（还原 Yt/Jt/Xt/Qt/Vt/Gt 等） =====
 async function writeTokens(
   payload: { accessToken?: string; refreshToken?: string; expiresAt?: number },
   state?: string
 ): Promise<void> {
-  // 重构前变量名: Jt（内部）
   await setLocalObject({
     [StorageKey.ACCESS_TOKEN]: payload.accessToken,
     [StorageKey.REFRESH_TOKEN]: payload.refreshToken,
@@ -161,7 +132,6 @@ async function refreshAccessToken(
   }
 }
 
-// 重构前变量名: Xt（原导出名 c）
 export async function ensureValidAccessToken(): Promise<{
   isValid: boolean;
   isRefreshed: boolean;
@@ -206,7 +176,6 @@ export async function ensureValidAccessToken(): Promise<{
   }
 }
 
-// 重构前变量名: Qt（原导出名 g）
 export async function getAccessToken(): Promise<string | undefined> {
   const status = await ensureValidAccessToken();
   if (!status.isValid) return undefined;
@@ -217,7 +186,6 @@ export async function getAccessToken(): Promise<string | undefined> {
   );
 }
 
-// 重构前变量名: Vt（内部 fetchProfile）
 async function fetchProfile(): Promise<any | null> {
   try {
     const token = await getAccessToken();
@@ -236,12 +204,11 @@ async function fetchProfile(): Promise<any | null> {
   }
 }
 
-// 重构前变量名: Wt（原导出名 f）
 export async function initStatsig(): Promise<void> {
-  // no-op, gates removed
+  // no-op
 }
 
-// PKCE 工具（与编译产物逻辑等价）
+// PKCE 工具
 function base64Url(bytes: Uint8Array): string {
   return btoa(String.fromCharCode(...bytes))
     .replace(/\+/g, "-")
@@ -255,7 +222,6 @@ async function sha256Base64Url(input: string): Promise<string> {
   return base64Url(new Uint8Array(digest));
 }
 
-// 重构前变量名: tn（原导出名 e）
 export async function startOAuthFlow(): Promise<void> {
   const env = getEnvConfig();
   const state = base64Url(crypto.getRandomValues(new Uint8Array(32)));
@@ -279,9 +245,7 @@ export async function startOAuthFlow(): Promise<void> {
   chrome.tabs.create({ url });
 }
 
-// 重构前变量名: zt（内部），en 调用；清理存储
 async function clearAllButWhitelist(): Promise<void> {
-  // 与产物等价：仅移除枚举中定义的键，且保留 anonymousId 与 updateAvailable
   const preserved = new Set<string>([
     StorageKey.ANONYMOUS_ID,
     StorageKey.UPDATE_AVAILABLE,
@@ -292,12 +256,10 @@ async function clearAllButWhitelist(): Promise<void> {
   if (toRemove.length) await removeLocal(toRemove);
 }
 
-// 重构前变量名: en（原导出名 h）
 export async function clearStorageForLogout(): Promise<void> {
   await clearAllButWhitelist();
 }
 
-// 重构前变量名: Zt（原导出名 j）
 export async function handleOAuthRedirect(
   redirectUri: string,
   tabId?: number
@@ -361,7 +323,6 @@ export async function handleOAuthRedirect(
       state || undefined
     );
 
-    // 直接跳转默认地址（移除门控与动态配置）
     let url = "https://claude.ai";
     if (tabId)
       await new Promise<void>((resolve) =>

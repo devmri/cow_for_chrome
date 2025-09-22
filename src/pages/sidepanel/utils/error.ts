@@ -1,12 +1,4 @@
-// 原始函数: yd
 
-/**
- * Parses an error object or string to extract a user-friendly message.
- * It handles nested error objects from API responses.
- * @original yd
- * @param error The error to parse, can be of any type.
- * @returns A user-friendly error message string.
- */
 export function parseErrorMessage(error: unknown): string {
   if (typeof error === "string") {
     // Check for JSON embedded in a string with a status code

@@ -1,4 +1,3 @@
-// original var: Pc, Oc, Ic
 import React, {
   createContext,
   useState,
@@ -16,7 +15,6 @@ interface CurrentAccountContextType {
   isAuthenticated: boolean;
 }
 
-// original var: Pc
 const CurrentAccountContext = createContext<CurrentAccountContextType | null>(
   null
 );
@@ -25,7 +23,6 @@ interface CurrentAccountProviderProps {
   children: ReactNode;
 }
 
-// original var: Oc
 export const CurrentAccountProvider = ({
   children,
 }: CurrentAccountProviderProps) => {

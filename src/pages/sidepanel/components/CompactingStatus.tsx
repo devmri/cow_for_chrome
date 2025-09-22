@@ -1,15 +1,9 @@
-// 原始函数: yx
-
 import React from "react";
 
 interface CompactingStatusProps {
   isDarkMode: boolean;
 }
 
-/**
- * 在压缩会话时显示的渐变文字提示。
- * @original yx
- */
 export function CompactingStatus({ isDarkMode }: CompactingStatusProps) {
   const gradient = isDarkMode
     ? "linear-gradient(90deg, #faf9f5 0%, #faf9f5 35%, #808080 50%, #faf9f5 65%, #faf9f5 100%)"

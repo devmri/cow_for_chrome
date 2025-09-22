@@ -17,7 +17,6 @@ export interface TextareaProps
   minRows?: number;
 }
 
-// 原组件名: wS
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {

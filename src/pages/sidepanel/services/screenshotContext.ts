@@ -1,5 +1,3 @@
-// 原始类: qu
-
 interface ScreenshotContextData {
   viewportWidth: number;
   viewportHeight: number;

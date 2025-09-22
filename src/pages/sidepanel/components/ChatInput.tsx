@@ -1,5 +1,3 @@
-// 这是从 xx 函数中提取的输入框相关逻辑
-
 import React, { useEffect, useCallback } from "react";
 import { SlashCommandMenu } from "./SlashCommandMenu";
 import { PermissionToggle } from "./PermissionToggle";

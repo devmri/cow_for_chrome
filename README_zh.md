@@ -1,9 +1,11 @@
 # Cow for Chrome 浏览器扩展
 
+*构建你自己的浏览器agent*
+
 **📖 Documentation**: [English](README.md) | [中文](README_zh.md)
 
 ## 项目简介
-- 基于 React 19、TypeScript、Vite 搭建的 Claude 浏览器扩展还原版，在任何页面侧边栏内提供对话能力。
+- 基于 React 19、TypeScript、Vite，使用Claude作为基座模型，在任何页面侧边栏内提供对话能力。
 - 工程代码全部集中在 `cow_chrome/` 目录，包含后台 Service Worker、侧边栏 UI、Options 设置页与多类内容脚本。
 
 ## 核心特性

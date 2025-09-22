@@ -1,4 +1,3 @@
-// 原始函数: nx
 import React from 'react';
 import { WarningTriangleIcon, SkipPermissionsIllustration } from '../../../../components/icons';
 
@@ -28,9 +27,9 @@ export function SkipPermissionsModal({ isOpen, onClose, onConfirm }: SkipPermiss
                         WARNING
                     </h3>
                     <ul className="text-[14px] font-styrene font-normal text-danger-000 leading-[140%] ml-4 list-disc space-y-2">
-                        <li style={{ letterSpacing: '-0.36px' }}>This allows Claude to take any action on the internet.</li>
+                        <li style={{ letterSpacing: '-0.36px' }}>This allows Cow to take any action on the internet.</li>
                         <li style={{ letterSpacing: '-0.36px' }}>This mode puts your data and the data of others at risk from malicious code.</li>
-                        <li style={{ letterSpacing: '-0.36px' }}>You should oversee Claude when it is in this mode. You are fully responsible for all risks associated with permission-less Claude.</li>
+                        <li style={{ letterSpacing: '-0.36px' }}>You should oversee Cow when it is in this mode. You are fully responsible for all risks associated with permission-less Cow.</li>
                         <li style={{ letterSpacing: '-0.36px' }}>
                             Review{' '}
                             <button onClick={() => chrome.tabs.create({ url: LEARN_MORE_URL })} className="text-danger-000 underline hover:no-underline focus:outline-none">risks</button>

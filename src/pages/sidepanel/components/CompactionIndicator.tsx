@@ -1,11 +1,5 @@
-// 原始函数: Jy
-
 import React from 'react';
 
-/**
- * A visual separator indicating that the conversation has been compacted.
- * @original Jy
- */
 export function CompactionIndicator() {
     return (
         <div className="flex items-center gap-2 py-2 my-2">

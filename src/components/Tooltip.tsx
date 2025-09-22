@@ -5,7 +5,6 @@ interface TooltipProps {
   children: React.ReactNode
 }
 
-// 简易 Tooltip：Hover 时在组件上方显示提示文本
 export function Tooltip({ content, children }: TooltipProps) {
   return (
     <div className="relative group inline-flex">

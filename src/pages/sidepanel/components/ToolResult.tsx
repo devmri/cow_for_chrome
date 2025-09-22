@@ -1,4 +1,3 @@
-// 原始函数: Gg
 
 import React, { useState, useEffect } from "react";
 import { Message, ToolUse } from "../types";
@@ -41,10 +40,6 @@ interface ToolDisplayInfo {
   text: string;
 }
 
-/**
- * Renders the result of a tool call in a structured, expandable card.
- * @original Gg
- */
 export function ToolResult({
   result,
   toolInfo,

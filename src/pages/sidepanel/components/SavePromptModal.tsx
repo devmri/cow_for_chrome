@@ -1,4 +1,3 @@
-// 原始函数: fx
 import React, { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import SavedPromptsService, { SavedPrompt } from '../../../lib/savedPrompts';

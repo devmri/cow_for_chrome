@@ -1,4 +1,3 @@
-// 原始函数: hx, lx, cx
 import React, { useState, useEffect, useCallback } from "react";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getLocalValue, setLocalKey, StorageKey } from "../../../lib/storage";
@@ -62,7 +61,6 @@ function useTip(tipId: 'pin_extension', entityId?: number) {
 }
 
 
-// 原始函数: dx
 const MountedTrigger = ({ children, onMount }: { children: React.ReactNode; onMount: () => void }) => {
     useEffect(() => {
         onMount();
@@ -70,10 +68,6 @@ const MountedTrigger = ({ children, onMount }: { children: React.ReactNode; onMo
     return <>{children}</>;
 };
 
-/**
- * The initial screen shown when the chat is empty.
- * @original hx
- */
 export function InitialScreen({ tabId, onPromptClick }: InitialScreenProps) {
   const [domain, setDomain] = useState("");
   const [isPinned, setIsPinned] = useState<boolean | null>(null);

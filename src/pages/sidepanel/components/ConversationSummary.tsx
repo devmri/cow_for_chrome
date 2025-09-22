@@ -1,4 +1,4 @@
-// 原始函数: Qy
+
 
 import React, { useState } from 'react';
 import { ChevronRightIcon } from 'lucide-react';
@@ -8,10 +8,6 @@ interface ConversationSummaryProps {
     message: Message;
 }
 
-/**
- * A component to display a conversation summary, which can be expanded or collapsed.
- * @original Qy
- */
 export function ConversationSummary({ message }: ConversationSummaryProps) {
     const [isExpanded, setIsExpanded] = useState(false);
     const content = typeof message.content === 'string' ? message.content : '';

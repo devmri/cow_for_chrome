@@ -57,7 +57,6 @@ const TEST_SUMMARY = [
   "Reload the side panel after loading test data",
 ];
 
-// 重构前变量名: nr
 export function TestDataTab() {
   const [status, setStatus] = useState("");
 

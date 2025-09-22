@@ -1,5 +1,3 @@
-// 原始函数: Xy
-
 import React from 'react';
 import { CircleAlert } from 'lucide-react';
 
@@ -8,10 +6,6 @@ interface UpdateRequiredScreenProps {
     minSupportedVersion: string;
 }
 
-/**
- * A screen that blocks usage and prompts the user to update the extension.
- * @original Xy
- */
 export function UpdateRequiredScreen({ currentVersion, minSupportedVersion }: UpdateRequiredScreenProps) {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-bg-100 p-4">
@@ -23,7 +17,7 @@ export function UpdateRequiredScreen({ currentVersion, minSupportedVersion }: Up
                         </div>
                         <h2 className="font-xl-bold text-text-100 mb-2">Extension Update Required</h2>
                         <p className="font-base-sm text-text-300 mb-4">
-                            Your extension version ({currentVersion}) is no longer supported. Please update to version {minSupportedVersion} or later to continue using Claude.
+                            Your extension version ({currentVersion}) is no longer supported. Please update to version {minSupportedVersion} or later to continue using Cow.
                         </p>
                         <button
                             onClick={() => { chrome.runtime.reload(); }}

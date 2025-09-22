@@ -1,5 +1,3 @@
-// 原始函数: Qf, eg, tg
-
 import React, { useRef, useEffect, useState } from "react";
 import { cn } from "../../../utils/classNames";
 
@@ -11,10 +9,6 @@ interface SimpleScreenshotProps {
   className?: string;
 }
 
-/**
- * Displays a simple screenshot image.
- * @original Qf
- */
 export function SimpleScreenshot({
   dataUrl,
   width,
@@ -46,10 +40,7 @@ interface ScreenshotWithClickProps {
   coordinates: [number, number];
   className?: string;
 }
-/**
- * Displays a screenshot with a visual indicator for a click action.
- * @original eg
- */
+
 export function ScreenshotWithClick({
   screenshot,
   coordinates,
@@ -95,8 +86,6 @@ export function ScreenshotWithClick({
     </div>
   );
 }
-
-
 interface ScreenshotWithDragProps {
     screenshot: string;
     startCoordinate: [number, number];
@@ -104,10 +93,6 @@ interface ScreenshotWithDragProps {
     className?: string;
 }
 
-/**
- * Displays a screenshot with a visual indicator for a drag action.
- * @original tg
- */
 export function ScreenshotWithDrag({ screenshot, startCoordinate, endCoordinate, className = "" }: ScreenshotWithDragProps) {
     const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
     const imgRef = useRef<HTMLImageElement>(null);

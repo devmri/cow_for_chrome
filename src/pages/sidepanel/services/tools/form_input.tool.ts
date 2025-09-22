@@ -1,5 +1,3 @@
-// 原始对象: ud
-
 import { ToolAction } from "../../../../lib/permissions";
 import { Tool, ToolContext, ToolOutput, PermissionRequest } from "../../types";
 import { checkDomainChange } from "../../utils/url";

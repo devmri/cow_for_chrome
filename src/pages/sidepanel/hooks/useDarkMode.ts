@@ -1,12 +1,5 @@
-// 原始函数: Yy
-
 import { useState, useEffect } from "react";
 
-/**
- * Hook to detect if the user's system is in dark mode.
- * @original Yy
- * @returns {boolean} True if dark mode is enabled, false otherwise.
- */
 export function useDarkMode(): boolean {
   const [isDarkMode, setIsDarkMode] = useState(false);
 

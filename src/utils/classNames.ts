@@ -1,5 +1,3 @@
-// 原辅助函数名: sb
-// 说明：等价还原打包产物中基于 clsx 的样式合并逻辑，支持字符串与布尔对象。
 export type ClassValue =
   | string
   | number

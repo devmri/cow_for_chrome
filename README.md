@@ -1,11 +1,13 @@
 # Cow for Chrome
 
+*Build your own browser agent*
+
 **📖 Documentation**: [English](README.md) | [中文](README_zh.md)
 
 # Cow for Chrome Extension
 
 ## Overview
-- Restored version of the Claude browser extension built with React 19, TypeScript, and Vite, enabling Claude conversations inside a Chrome side panel on any webpage.
+- A browser extension built with React 19, TypeScript, and Vite, enabling Claude conversations inside a Chrome side panel on any webpage.
 - All source code lives under `cow_chrome/`, including the background service worker, side panel UI, options page, and multiple content scripts.
 
 ## Key Features

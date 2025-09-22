@@ -1,5 +1,3 @@
-// 原始函数: Jf
-
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import { cn } from "../../../utils/classNames";
@@ -9,10 +7,6 @@ interface MarkdownRendererProps {
   variant?: "user" | "assistant";
 }
 
-/**
- * Renders Markdown text with custom styling for user and assistant messages.
- * @original Jf (and its dependency Yf, which is react-markdown)
- */
 export function MarkdownRenderer({
   text,
   variant = "assistant",

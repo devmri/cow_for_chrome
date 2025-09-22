@@ -28,7 +28,6 @@ export interface InputProps
   onValueChange?: (value: string) => void;
 }
 
-// 原组件名: bS
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { getLocalValue, setLocalKey, StorageKey } from "../../lib/storage";
 import { Bug } from "lucide-react";
 
-// 重构前变量名: tr（Model & Prompt 配置）
 export function ModelPromptConfig({
   selectedModel,
   setSelectedModel,
@@ -48,7 +47,6 @@ export function ModelPromptConfig({
     <div className="max-w-2xl">
       <h2 className="font-xl-bold text-text-100 mb-4">Model & Prompt Configuration</h2>
       <div className="space-y-6">
-        {/* 模型选择（重构前变量名: tr 中的模型部分） */}
           <div className="space-y-4">
             <h3 className="font-large-bold text-text-100">Model Selection</h3>
             <div>
@@ -85,7 +83,6 @@ export function ModelPromptConfig({
             </div>
             <button
               onClick={onModelSave}
-              // 重构前变量名: tr — 与产物一致：当未选择模型时禁用
               disabled={!selectedModel}
               className="w-full bg-accent-main-200 text-oncolor-100 py-2 px-4 rounded-md hover:bg-accent-main-100 focus:outline-none focus:ring-2 focus:ring-accent-main-200 disabled:bg-bg-400 disabled:cursor-not-allowed font-button-lg"
             >
@@ -138,7 +135,7 @@ export function ModelPromptConfig({
         <div className="space-y-4">
           <h3 className="font-large-bold text-text-100 flex items-center gap-2">
             <Bug className="w-5 h-5" />
-            (Ant-only) Debug Settings
+            Debug Settings
           </h3>
           <div className="space-y-3">
             <label className="flex items-center gap-3 cursor-pointer">

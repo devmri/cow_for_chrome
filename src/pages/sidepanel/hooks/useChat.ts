@@ -1,4 +1,3 @@
-// 原始函数: gd
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import Anthropic from "@anthropic-ai/sdk";
@@ -19,7 +18,7 @@ import { CompactionService } from "../services/compaction.service";
 import { debuggerService } from "../services/debugger.service";
 import { permissionService } from "../../../lib/permissions";
 import { getLocalValue, StorageKey } from "../../../lib/storage";
-// Removed feature gates and dynamic configs
+
 import { useAnalytics } from "../../../providers/AnalyticsProvider";
 import { useCurrentAccount } from "../../../providers/CurrentAccountProvider";
 import { getEnvConfig } from "../../../lib/sentryService";
@@ -106,7 +105,6 @@ export function useChat({
     return envConfig.apiBaseUrl;
   }, [apiBaseUrl, envConfig.apiBaseUrl]);
 
-  // 原始函数: Z
   const getPageType = useCallback((url?: string) => {
     if (!url) return "regular";
     if (url.startsWith("chrome://") || url.startsWith("chrome-extension://") || url === "about:blank") {
@@ -118,7 +116,6 @@ export function useChat({
     return "regular";
   }, []);
   
-  // 原始函数: z
   const getAvailableTools = useCallback((pageType: string): Tool[] => {
     if (pageType === 'system' || pageType === 'non-script') {
         return toolsRef.current.filter(tool => ['navigate'].includes(tool.name));
@@ -149,15 +146,10 @@ export function useChat({
 
   useEffect(() => {
     if (model && sessionId && permissionMode) {
-      analytics?.track("claude_chrome.chat.session_started", {
-        model,
-        sessionId,
-        permissions: permissionMode,
-      });
+      // 上报
     }
   }, [analytics, model, sessionId, permissionMode]);
 
-  // 原始函数: W
   const initializeSession = useCallback(async () => {
     if (!tabId) return;
 
@@ -205,7 +197,6 @@ export function useChat({
     setSystemPrompt(promptParts as any);
   }, [tabId, defaultSystemPrompt, skipPermissionsSystemPrompt, skipAllPermissions]);
 
-  // 原始函数: Y
   const clearMessages = useCallback(async () => {
     setMessages([]);
     setMessageHistory([]);
@@ -237,7 +228,6 @@ export function useChat({
     }
   }, [skipAllPermissions, clearMessages, initializeSession]);
 
-  // 原始函数: G
   const cancel = useCallback(() => {
     isCancelledRef.current = true;
     if (abortControllerRef.current) {
@@ -249,7 +239,6 @@ export function useChat({
     setIsCompacting(false);
   }, []);
 
-  // 原始函数: J
   const prepareMessageForApi = useCallback((message: Message, isLastAssistantMessage = false): Anthropic.Messages.MessageParam => {
     const { role } = message;
     if (typeof message.content === 'string') {
@@ -275,7 +264,6 @@ export function useChat({
     return { role, content: "" };
   }, []);
 
-  // 原始函数: Q
   const prepareMessagesForApi = useCallback((messages: Message[]): Anthropic.Messages.MessageParam[] => {
     let lastAssistantIndex = -1;
     for (let i = messages.length - 1; i >= 0; i--) {
@@ -288,7 +276,6 @@ export function useChat({
     return apiMessages;
   }, [prepareMessageForApi]);
 
-  // 原始函数: ee
   const createAnthropicMessage = useCallback(
     async (params: Anthropic.Messages.MessageCreateParams, parentSpan?: Span) => {
       if (!anthropicClientRef.current) throw new Error("Client not initialized");
@@ -319,7 +306,6 @@ export function useChat({
     [model, userProfile?.account.uuid, enableTraceHeaders, refreshTokenIfNeeded, sessionId, permissionMode]
   );
   
-  // 原始函数: te
   const executeTool = useCallback(async (
     name: string,
     input: any,
@@ -360,16 +346,13 @@ export function useChat({
                 analyticsPayload.success = !result.error;
                 span.setAttribute("success", !result.error);
             }
-            analytics?.track("claude_chrome.chat.tool_called", analyticsPayload);
             return result;
         } catch (e) {
-            analytics?.track("claude_chrome.chat.tool_called", {...analyticsPayload, success: false, failureReason: 'exception'});
             throw e;
         }
     }, parentSpan);
   }, [tabId, sessionId, createAnthropicMessage, permissionManager, permissionMode, analytics, currentDomain]);
 
-  // 原始函数: ne
   const processToolCalls = useCallback(async (toolCalls: ToolUse[], parentSpan?: Span): Promise<any[]> => {
     const results: any[] = [];
 
@@ -424,7 +407,6 @@ export function useChat({
 
   const cascadeNebulaEnabled = false;
 
-  // 原始函数: se
   const sendMessage = useCallback(async (prompt: string, parentSpan?: Span) => {
     if (!anthropicClientRef.current) {
       setError("Client not initialized. Please sign in again.");
@@ -467,13 +449,6 @@ export function useChat({
             setMessageHistory(messages);
             setTokensSaved(result.tokensSaved);
             currentMessages = result.messagesAfterCompacting;
-            analytics?.track(`claude_chrome.chat.${compactionType}_compact`, {
-                preTokens: result.preCompactTokenCount,
-                postTokens: result.postCompactTokenCount,
-                savedTokens: result.tokensSaved,
-                sessionId,
-                permissions: permissionMode,
-            });
 
             if (isManualCompact) {
                 setIsCompacting(false);
@@ -496,8 +471,7 @@ export function useChat({
 
     setIsLoading(true);
     setError(null);
-    analytics?.track("claude_chrome.chat.user_message_sent", { model, sessionId, permissions: permissionMode });
-
+   
     const userMessage: Message = { role: "user", content: [{ type: "text", text: prompt }] };
     let updatedMessages = [...currentMessages, userMessage];
     setMessages(updatedMessages);
@@ -574,6 +548,7 @@ export function useChat({
                     tools: toolSchemas || [],
                     system: systemPrompt,
                     betas: cascadeNebulaEnabled ? ["oauth-2025-04-20", "context-management-2025-06-27"] : ["oauth-2025-04-20"],
+                    // @ts-ignore
                     ...(cascadeNebulaEnabled && {
                         context_management: {
                             edits: [
@@ -661,11 +636,6 @@ export function useChat({
                     .on('finalMessage', (message: any) => {
                         if (message && 'usage' in message) {
                             const usage = message.usage;
-                            analytics?.track("claude_chrome.chat.usage", {
-                                usage,
-                                sessionId,
-                                permissions: permissionMode,
-                            });
                         }
                     });
 
@@ -687,13 +657,6 @@ export function useChat({
                         if (tabId) await debuggerService.detachDebugger(tabId);
                     } catch(e) {/* ignore */}
 
-                    analytics?.track("claude_chrome.chat.assistant_response_stopped", {
-                        model,
-                        cancelled: isCancelledRef.current,
-                        sessionId,
-                        permissions: permissionMode,
-                        stopReason
-                    });
                 }
                 // Cleanup empty assistant messages
                 const lastMsg = updatedMessages[updatedMessages.length - 1];
@@ -709,7 +672,6 @@ export function useChat({
     }
   }, [messages, model, prepareMessagesForApi, processToolCalls, analytics, tabId, systemPrompt, getAvailableTools, getPageType, cascadeNebulaEnabled, enableTraceHeaders, userProfile?.account.uuid, refreshTokenIfNeeded, createAnthropicMessage, permissionMode, sessionId, initializeSession]);
 
-  // 原始函数: oe
   const sendUserMessage = useCallback(async (prompt: string) => {
     try {
       await withTelemetrySpan("send_user_message", async (span) => {

@@ -1,4 +1,3 @@
-// 原始函数: rx
 import React from 'react';
 import { SparkleIcon, TrashIcon } from 'lucide-react';
 
@@ -14,10 +13,10 @@ export function UpsellAntBuildModal({ isOpen, onClose }: UpsellAntBuildModalProp
         <div className="w-full h-screen bg-bg-100 flex items-center justify-center p-5 absolute inset-0 z-50">
             <div className="max-w-[520px] w-full">
                 <h1 className="text-center text-text-000 mb-3" style={{ fontFamily: 'Copernicus, var(--font-ui-serif)', fontSize: '26px', fontWeight: 500, lineHeight: '140%', letterSpacing: '-0.65px' }}>
-                    Test the newest<br />Claude experience
+                    Test the newest<br />Cow experience
                 </h1>
                 <p className="text-center text-text-300 mb-[22px] px-4" style={{ fontSize: '14px', lineHeight: '140%', letterSpacing: '-0.36px' }}>
-                    Please help us Antfood the latest version of Claude. Your testing accelerates our development.
+                    Please help us Antfood the latest version of Cow. Your testing accelerates our development.
                 </p>
                 <div className="border border-border-300 rounded-[24px] mb-[22px]">
                     <div className="flex gap-3 pt-5 pb-4 px-4">

@@ -1,5 +1,3 @@
-// 重构前变量名: Gc（ScheduledTaskLogsService）
-// 说明：此服务用于记录与导出计划任务的运行日志与统计，严格等价还原 assets/Main-B6Y8HftM.js 中的逻辑。
 
 import { getLocalValue, setLocalKey, StorageKey } from "./storage";
 
@@ -35,7 +33,6 @@ export interface TaskStatsItem {
 type TaskStatsMap = Record<string, TaskStatsItem>;
 
 export class ScheduledTaskLogsService {
-  // 重构前变量名: startTaskRun
   static async startTaskRun(
     taskId: string,
     taskName: string,
@@ -62,7 +59,6 @@ export class ScheduledTaskLogsService {
     return log;
   }
 
-  // 重构前变量名: addLogMessage
   static async addLogMessage(runId: string, message: TaskRunMessage): Promise<void> {
     const all = await this.getAllLogs();
     const found = all.find((l) => l.id === runId);
@@ -72,7 +68,6 @@ export class ScheduledTaskLogsService {
     }
   }
 
-  // 重构前变量名: updateTaskRunStatus
   static async updateTaskRunStatus(
     runId: string,
     status: TaskRunStatus,
@@ -90,26 +85,22 @@ export class ScheduledTaskLogsService {
     await this.updateStats(found.taskId, status === "completed");
   }
 
-  // 重构前变量名: getTaskLogs
   static async getTaskLogs(taskId: string): Promise<TaskRunLog[]> {
     return (await this.getAllLogs())
       .filter((l) => l.taskId === taskId)
       .sort((a, b) => b.timestamp - a.timestamp);
   }
 
-  // 重构前变量名: getAllLogs
   static async getAllLogs(): Promise<TaskRunLog[]> {
     return (await getLocalValue<TaskRunLog[]>(StorageKey.SCHEDULED_TASK_LOGS)) || [];
   }
 
-  // 重构前变量名: saveLog
   static async saveLog(log: TaskRunLog): Promise<void> {
     const all = await this.getAllLogs();
     all.push(log);
     await this.saveLogs(all);
   }
 
-  // 重构前变量名: saveLogs（保留最近 30 天，按任务最多 50 条，整体最多 500 条）
   static async saveLogs(all: TaskRunLog[]): Promise<void> {
     const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000; // 30 天
     let filtered = all.filter((l) => l.timestamp > cutoff);
@@ -134,7 +125,6 @@ export class ScheduledTaskLogsService {
     await setLocalKey(StorageKey.SCHEDULED_TASK_LOGS, filtered);
   }
 
-  // 重构前变量名: updateStats
   static async updateStats(taskId: string, success: boolean): Promise<void> {
     const stats =
       (await getLocalValue<TaskStatsMap>(StorageKey.SCHEDULED_TASK_STATS)) || {};
@@ -160,14 +150,12 @@ export class ScheduledTaskLogsService {
     await setLocalKey(StorageKey.SCHEDULED_TASK_STATS, stats);
   }
 
-  // 重构前变量名: getTaskStats
   static async getTaskStats(taskId: string): Promise<TaskStatsItem | null> {
     const stats =
       (await getLocalValue<TaskStatsMap>(StorageKey.SCHEDULED_TASK_STATS)) || {};
     return stats[taskId] || null;
   }
 
-  // 重构前变量名: exportLogs
   static async exportLogs(taskId?: string): Promise<string> {
     const logs = taskId ? await this.getTaskLogs(taskId) : await this.getAllLogs();
     return JSON.stringify(
@@ -177,7 +165,6 @@ export class ScheduledTaskLogsService {
     );
   }
 
-  // 重构前变量名: clearTaskLogs
   static async clearTaskLogs(taskId: string): Promise<void> {
     const others = (await this.getAllLogs()).filter((l) => l.taskId !== taskId);
     await setLocalKey(StorageKey.SCHEDULED_TASK_LOGS, others);
@@ -187,7 +174,6 @@ export class ScheduledTaskLogsService {
     await setLocalKey(StorageKey.SCHEDULED_TASK_STATS, stats);
   }
 
-  // 重构前变量名: clearAllLogs（未在 options 中露出，保留）
   static async clearAllLogs(): Promise<void> {
     await chrome.storage.local.remove([
       StorageKey.SCHEDULED_TASK_LOGS,

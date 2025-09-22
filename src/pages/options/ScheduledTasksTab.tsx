@@ -15,7 +15,6 @@ import {
   Plus,
 } from "lucide-react";
 
-// 任务类型（等价还原）
 type RepeatType = "once" | "hourly" | "daily" | "weekdays" | "weekly";
 export interface ScheduledTaskItem {
   id: string;
@@ -33,7 +32,6 @@ export interface ScheduledTaskItem {
   nextRun?: number;
 }
 
-// 重构前变量名: U（ScheduledTasksTab）
 export function ScheduledTasksTab() {
   const [tasks, setTasks] = useState<ScheduledTaskItem[]>([]);
   const [editingTask, setEditingTask] = useState<ScheduledTaskItem | null>(null);
@@ -45,7 +43,6 @@ export function ScheduledTasksTab() {
   >(null);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
-  // 更新 nextRun（重构前变量名: j）
   const updateNextRuns = useCallback(async (base?: ScheduledTaskItem[]) => {
     const alarms = await chrome.alarms.getAll();
     const arr = (base || tasks).map((t) => {
@@ -62,7 +59,6 @@ export function ScheduledTasksTab() {
     }
   }, [tasks]);
 
-  // 重新调度全部（重构前变量名: v）
   const rescheduleAll = useCallback(async (list: ScheduledTaskItem[]) => {
     const alarms = await chrome.alarms.getAll();
     for (const a of alarms) if (a.name.startsWith("task_")) await chrome.alarms.clear(a.name);
@@ -70,14 +66,12 @@ export function ScheduledTasksTab() {
     setTimeout(() => updateNextRuns(list), 500);
   }, [updateNextRuns]);
 
-  // 存储+状态+调度（重构前变量名: N）
   const setAndSaveTasks = useCallback(async (list: ScheduledTaskItem[]) => {
     await setLocalKey(StorageKey.SCHEDULED_TASKS, list);
     setTasks(list);
     rescheduleAll(list);
   }, [rescheduleAll]);
 
-  // 初始加载（重构前变量名: k）
   const loadFromStorage = useCallback(async () => {
     const stored = await getLocalValue<ScheduledTaskItem[]>(StorageKey.SCHEDULED_TASKS);
     if (stored) {
@@ -100,7 +94,6 @@ export function ScheduledTasksTab() {
     }
   }, []);
 
-  // 单任务调度（重构前变量名: E）
   function scheduleTask(t: ScheduledTaskItem) {
     const name = `task_${t.id}`;
     if (t.repeatType === "once" && t.specificTime) {
@@ -158,7 +151,6 @@ export function ScheduledTasksTab() {
     }
   }
 
-  // 运行任务（重构前变量名: A）
   const runTask = useCallback(
     async (taskId: string, manual: boolean = true) => {
       const t = tasks.find((x) => x.id === taskId);
@@ -216,7 +208,6 @@ export function ScheduledTasksTab() {
     [tasks, setAndSaveTasks]
   );
 
-  // 报警监听（重构前变量名: R）
   const setupAlarmListener = useCallback(() => {
     chrome.alarms.onAlarm.addListener((alarm) => {
       if (alarm.name.startsWith("task_")) {
@@ -226,7 +217,6 @@ export function ScheduledTasksTab() {
     });
   }, [runTask]);
 
-  // nextRun 友好展示（重构前变量名: I）
   function formatNextRun(ts?: number): string {
     if (!ts) return "Not scheduled";
     const when = new Date(ts);
@@ -255,7 +245,6 @@ export function ScheduledTasksTab() {
     };
   }, [loadFromStorage, setupAlarmListener, updateNextRuns]);
 
-  // 导出配置（与产物等价）
   function exportTaskConfig(t: ScheduledTaskItem) {
     const payload = {
       ...t,
@@ -275,7 +264,6 @@ export function ScheduledTasksTab() {
     URL.revokeObjectURL(url);
   }
 
-  // 导入配置
   function importTask() {
     const input = document.createElement("input");
     input.type = "file";
@@ -311,7 +299,6 @@ export function ScheduledTasksTab() {
     input.click();
   }
 
-  // 任务卡片中的计划描述
   function scheduleSummary(t: ScheduledTaskItem): string {
     switch (t.repeatType) {
       case "once":

@@ -1,4 +1,3 @@
-// 原始类: ed
 
 import Anthropic from "@anthropic-ai/sdk";
 import { Message, AnthropicContent } from "../types";

@@ -38,9 +38,6 @@ interface ToastProps {
   onClose: (id: string) => void;
 }
 
-/**
- * 单条提示（重构前变量名: Wa）
- */
 function Toast({ toast, onClose }: ToastProps) {
   const [hiding, setHiding] = useState(false);
 
@@ -79,9 +76,6 @@ function Toast({ toast, onClose }: ToastProps) {
   );
 }
 
-/**
- * Toast 容器（重构前变量名: Ya）
- */
 export function ToastContainer() {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 

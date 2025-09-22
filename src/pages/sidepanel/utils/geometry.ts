@@ -1,25 +1,8 @@
-// 原始函数: Zu, zu, Wu, sd
 
-/**
- * Calculates page numbers for a given item count and items per page.
- * Logic is equivalent to Math.ceil(itemCount / itemsPerPage) but implemented as is to ensure 100% equivalence.
- * @original Zu
- * @param itemCount - The number of items (e.g., pixels).
- * @param itemsPerPage - The number of items per page (e.g., pixels per token).
- * @returns The total number of pages.
- */
 function calculatePages(itemCount: number, itemsPerPage: number): number {
   return Math.floor((itemCount - 1) / itemsPerPage) + 1;
 }
 
-/**
- * Calculates the number of grid cells for a given width, height, and cell size.
- * @original zu
- * @param width The width of the grid.
- * @param height The height of the grid.
- * @param cellSize The size of each square cell.
- * @returns The total number of cells.
- */
 function calculateGridCells(
   width: number,
   height: number,
@@ -34,14 +17,7 @@ interface ResizeParams {
   maxTargetTokens: number;
 }
 
-/**
- * Calculates resized dimensions for a screenshot while maintaining aspect ratio and adhering to constraints.
- * @original Wu
- * @param width The original width.
- * @param height The original height.
- * @param constraints The resize constraints.
- * @returns A tuple containing the new width and height.
- */
+
 export function calculateResizedDimensions(
   width: number,
   height: number,
@@ -94,14 +70,6 @@ interface ScreenshotContext {
   screenshotHeight: number;
 }
 
-/**
- * Scales coordinates from screenshot space to viewport space.
- * @original sd
- * @param x The x-coordinate in the screenshot.
- * @param y The y-coordinate in the screenshot.
- * @param context The screenshot and viewport dimensions context.
- * @returns A tuple containing the scaled x and y coordinates.
- */
 export function scaleCoordinates(
   x: number,
   y: number,

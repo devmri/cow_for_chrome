@@ -1,4 +1,3 @@
-// 原始函数: ax 和 ix
 
 import React, { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,10 +10,7 @@ interface DashedBorderProps {
   borderRadius?: number;
 }
 
-/**
- * Renders an animated dashed border inside a container.
- * @original ix
- */
+
 function DashedBorder({
   strokeColor,
   strokeWidth = 2,
@@ -78,10 +74,6 @@ function DashedBorder({
   );
 }
 
-/**
- * Displays an active state border animation.
- * @original ax
- */
 export function ActiveBorder({ isActive }: { isActive: boolean }) {
   return (
     <AnimatePresence>

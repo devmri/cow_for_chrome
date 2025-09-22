@@ -1,11 +1,4 @@
-/*
-  等价还原：assets/accessibility-tree.js-BYuwdz4C.js
-  - 全局导出 window.__generateAccessibilityTree(filter?: 'all' | 'interactive')
-  - 保留 WeakRef 元素映射（__claudeElementMap/__claudeRefCounter），保证引用 ID 稳定
-  - 输出 pageContent（字符串）与 viewport（可视区尺寸）
-*/
 
-// 让本文件成为模块，以允许 global 扩展（修复 TS2669）
 export {};
 
 declare global {
@@ -19,16 +12,13 @@ declare global {
   }
 }
 
-// 初始化全局引用表
 if (!window.__claudeElementMap) window.__claudeElementMap = {};
 if (!window.__claudeRefCounter) window.__claudeRefCounter = 0;
 
-// 重构前变量名：window.__generateAccessibilityTree
 window.__generateAccessibilityTree = function generateAccessibilityTree(
   filter?: "all" | "interactive" | null
 ) {
   try {
-    // 重构前变量名: n（推断角色）
     function inferRole(el: Element): string {
       const role = el.getAttribute("role");
       if (role) return role;
@@ -73,10 +63,8 @@ window.__generateAccessibilityTree = function generateAccessibilityTree(
       return map[tag] || "generic";
     }
 
-    // 重构前变量名: a（推断 label/文本）
     function inferLabel(el: Element): string {
       const tag = el.tagName.toLowerCase();
-      // select: 选中项文本
       if (tag === "select") {
         const sel = el as HTMLSelectElement;
         const opt =
@@ -126,7 +114,6 @@ window.__generateAccessibilityTree = function generateAccessibilityTree(
           return `Image: ${file}`;
         }
       }
-      // 汇总直接子文本
       let agg = "";
       for (let i = 0; i < el.childNodes.length; i++) {
         const n = el.childNodes[i];
@@ -139,7 +126,6 @@ window.__generateAccessibilityTree = function generateAccessibilityTree(
       return "";
     }
 
-    // 重构前变量名: o（可见性）
     function isVisible(el: Element): boolean {
       const cs = window.getComputedStyle(el as HTMLElement);
       if (
@@ -154,7 +140,6 @@ window.__generateAccessibilityTree = function generateAccessibilityTree(
       );
     }
 
-    // 重构前变量名: l（可交互）
     function isInteractive(el: Element): boolean {
       const tag = el.tagName.toLowerCase();
       if (
@@ -177,7 +162,6 @@ window.__generateAccessibilityTree = function generateAccessibilityTree(
       return false;
     }
 
-    // 重构前变量名: u（结构性）
     function isStructural(el: Element): boolean {
       const tag = el.tagName.toLowerCase();
       if (
@@ -201,7 +185,6 @@ window.__generateAccessibilityTree = function generateAccessibilityTree(
       return el.getAttribute("role") != null;
     }
 
-    // 重构前变量名: c（表单/分组容器判断）
     function isFormishContainer(el: Element): boolean {
       const role = el.getAttribute("role") || "";
       const tag = el.tagName.toLowerCase();
@@ -227,20 +210,17 @@ window.__generateAccessibilityTree = function generateAccessibilityTree(
       );
     }
 
-    // 重构前变量名: d（是否应纳入）
     function shouldInclude(
       el: Element,
       cfg: { filter?: "all" | "interactive" }
     ): boolean {
       const tag = el.tagName.toLowerCase();
-      // 排除非文档元素
       if (
         ["script", "style", "meta", "link", "title", "noscript"].includes(tag)
       )
         return false;
       if (el.getAttribute("aria-hidden") === "true") return false;
       if (!isVisible(el)) return false;
-      // 视口过滤（非 all 时要求与视口相交）
       if ((cfg.filter as any) !== "all") {
         const r = (el as HTMLElement).getBoundingClientRect();
         if (
@@ -280,7 +260,6 @@ window.__generateAccessibilityTree = function generateAccessibilityTree(
       return isFormishContainer(el);
     }
 
-    // 重构前变量名: f（遍历）
     function traverse(
       el: Element,
       depth: number,
@@ -293,7 +272,6 @@ window.__generateAccessibilityTree = function generateAccessibilityTree(
         const role = inferRole(el);
         let label = inferLabel(el);
         let refId: string | null = null;
-        // 复用已有 WeakRef 标识
         for (const k in window.__claudeElementMap!) {
           if (window.__claudeElementMap![k].deref() === el) {
             refId = k;
@@ -333,12 +311,10 @@ window.__generateAccessibilityTree = function generateAccessibilityTree(
     const out: string[] = [];
     const cfg: any = { filter };
     if (document.body) traverse(document.body, 0, cfg, out);
-    // 清理已失效的 WeakRef
     for (const k in window.__claudeElementMap!) {
       if (!window.__claudeElementMap![k].deref())
         delete window.__claudeElementMap![k];
     }
-    // 产物中的过滤：去除仅为 "- generic [ref=ref_x]" 的行
     const pageContent = out
       .filter((line) => !/^\s*- generic \[ref=ref_\d+\]$/.test(line))
       .join("\n");

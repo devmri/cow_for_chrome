@@ -1,5 +1,3 @@
-// 原始函数: gx
-
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Plus } from 'lucide-react';
 import { SystemCommand } from './App';

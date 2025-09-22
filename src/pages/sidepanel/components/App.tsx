@@ -1,5 +1,3 @@
-// 原始函数: xx
-
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useChat } from "../hooks/useChat";
@@ -42,10 +40,7 @@ export interface SystemCommand {
     execute: () => void;
 }
 
-/**
- * The main application component for the side panel.
- * @original xx
- */
+
 export function App() {
   const isDarkMode = useDarkMode();
   const [inputValue, setInputValue] = useState("");
@@ -63,7 +58,6 @@ export function App() {
     isLoading: isAuthLoading,
     refreshTokenIfNeeded,
   } = useAuth();
-  // Removed dynamic model config; keeping default model selection
   const [selectedModel, setSelectedModel] = useState("claude-sonnet-4-20250514");
   const [sessionId, setSessionId] = useState(() => crypto.randomUUID());
   const [permissionPrompt, setPermissionPrompt] = useState<PermissionRequest | null>(null);
@@ -165,6 +159,7 @@ export function App() {
   const [showUpsell, setShowUpsell] = useState(false);
   const hasShownUpsell = useRef(false);
   useEffect(() => {
+    // 替换成自己的
     if (upsellAntBuild && chrome.runtime.id === 'aodaaaaehghpnpceiagoejlhplogbfen' && !hasShownUpsell.current) {
         setShowUpsell(true);
         hasShownUpsell.current = true;
@@ -715,7 +710,6 @@ export function App() {
                                     setSubmittedFeedback(newMap);
                                 }
                                 if (!canSubmitFeedback) return;
-                                // analytics?.track("claude_chrome.chat.feedback", { ...feedbackData, session_id: sessionId, permissions: permissionMode });
                             } catch(e) {/* ignore */}
                         }}
                         feedbackType={feedbackType}
@@ -823,8 +817,6 @@ function useAuth() {
     return { authToken, anthropicApiKey, anthropicApiUrl, needsOAuth, isLoading, refreshTokenIfNeeded };
 }
 
-// 原始内联函数: xx 内的 permissionPromptRef 逻辑
-// Helper hook for managing permission prompt sizing and its effect on layout
 function usePermissionPromptSizing({ permissionPrompt, messagesContainerRef, isAutoScrollEnabled, setIsAutoScrollEnabled }: any) {
     const [promptHeight, setPromptHeight] = useState(0);
     const promptRef = useRef<HTMLDivElement>(null);

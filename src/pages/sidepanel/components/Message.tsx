@@ -1,5 +1,3 @@
-// 原始函数: Dy
-
 import React, { useState, useEffect } from "react";
 import {
   ThumbsUp,
@@ -29,10 +27,6 @@ interface MessageProps {
   onSavePrompt?: (prompt: string) => void;
 }
 
-/**
- * Renders a single message in the chat, either from the user or the assistant.
- * @original Dy
- */
 export function Message({
   message,
   previousMessages = [],

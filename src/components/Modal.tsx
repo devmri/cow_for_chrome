@@ -160,9 +160,6 @@ interface ModalFooterProps {
   className?: string;
 }
 
-/**
- * 弹窗底部布局（重构前变量名: Le）
- */
 export function ModalFooter({ children, layout = "right", className }: ModalFooterProps) {
   return (
     <div
