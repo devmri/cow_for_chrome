@@ -2,10 +2,6 @@
 // 注意：仅还原业务逻辑，第三方/打包器辅助代码不重建
 
 import {
-  // 重构前变量名: Ki（原导出名 i）
-  initSentryForExtension,
-  // 重构前变量名: Wt（原导出名 f）
-  initStatsig,
   // 重构前变量名: tn（原导出名 e）
   startOAuthFlow,
   // 重构前变量名: Nt（原导出名 s）
@@ -151,22 +147,17 @@ async function executeScheduledTask(
   });
 }
 
-// 初始化 Sentry（与编译产物一致：顶层立即执行）
-initSentryForExtension();
-
-// onInstalled：清理更新标记、初始化 Statsig、更新 UA 规则，首次安装触发 OAuth 授权
+// onInstalled：清理更新标记、更新 UA 规则，首次安装触发 OAuth 授权
 chrome.runtime.onInstalled.addListener(async (details) => {
   chrome.storage.local.remove(["updateAvailable"]);
-  initStatsig();
   await setupApiUserAgentHeader();
   if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
     startOAuthFlow();
   }
 });
 
-// onStartup：初始化 Statsig、更新 UA 规则
+// onStartup：更新 UA 规则
 chrome.runtime.onStartup.addListener(async () => {
-  initStatsig();
   await setupApiUserAgentHeader();
 });
 
@@ -258,7 +249,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "logout") {
       try {
         await clearStorageForLogout();
-        await initStatsig();
         sendResponse({ success: true });
       } catch {
         // 与产物一致：忽略错误

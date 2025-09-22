@@ -1,5 +1,4 @@
 import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useFeatureGate } from "@statsig/react-bindings";
 import {
   Lightning,
   EnvelopeSimple,
@@ -459,7 +458,7 @@ export function ShortcutsTab() {
   const [modalVisible, setModalVisible] = useState(false);
   const [segment, setSegment] = useState<"my-tasks" | "browse">("my-tasks");
   const showToast = useToast();
-  const browseGate = useFeatureGate("crochet_browse_shortcuts").value;
+  const browseGate = true;
 
   const loadPrompts = useCallback(async () => {
     const all = await SavedPromptsService.getAllPrompts();

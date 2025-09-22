@@ -19,7 +19,7 @@ import { CompactionService } from "../services/compaction.service";
 import { debuggerService } from "../services/debugger.service";
 import { permissionService } from "../../../lib/permissions";
 import { getLocalValue, StorageKey } from "../../../lib/storage";
-import { useDynamicConfig, useFeatureGate } from "@statsig/react-bindings";
+// Removed feature gates and dynamic configs
 import { useAnalytics } from "../../../providers/AnalyticsProvider";
 import { useCurrentAccount } from "../../../providers/CurrentAccountProvider";
 import { getEnvConfig } from "../../../lib/sentryService";
@@ -82,20 +82,12 @@ export function useChat({
     Anthropic.Messages.MessageParam[] | null
   >(null);
 
-  const { systemPrompt: defaultSystemPrompt, skipPermissionsSystemPrompt } =
-    (() => {
-      const { value: defaultPromptConfig } = useDynamicConfig(
-        "chrome_ext_system_prompt",
-      );
-      const { value: skipPermsPromptConfig } = useDynamicConfig(
-        "chrome_ext_skip_perms_system_prompt",
-      );
-      return {
-        systemPrompt: defaultPromptConfig.systemPrompt,
-        skipPermissionsSystemPrompt:
-          skipPermsPromptConfig.skipPermissionsSystemPrompt,
-      };
-    })();
+  const { systemPrompt: defaultSystemPrompt, skipPermissionsSystemPrompt } = {
+    systemPrompt:
+      "You are Cow for Chrome. Respond concisely, follow the user's instructions, and mention if additional permissions are required. Current datetime: {{currentDateTime}}.",
+    skipPermissionsSystemPrompt:
+      "You are operating in skip-permissions mode. Clearly explain assumptions and highlight actions that would normally require permissions. Current datetime: {{currentDateTime}}.",
+  };
 
   const anthropicClientRef = useRef<Anthropic | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -104,8 +96,7 @@ export function useChat({
   const toolsRef = useRef(ALL_TOOLS);
 
   const { userProfile } = useCurrentAccount();
-  const enableTraceHeaders =
-    useFeatureGate("chrome_ext_trace_headers").value || false;
+  const enableTraceHeaders = false;
 
   const envConfig = useMemo(() => getEnvConfig(), []);
   const resolvedApiBaseUrl = useMemo(() => {
@@ -431,7 +422,7 @@ export function useChat({
     return results;
   }, [executeTool, onPermissionRequired]);
 
-  const cascadeNebulaEnabled = useFeatureGate('cascade_nebula').value;
+  const cascadeNebulaEnabled = false;
 
   // 原始函数: se
   const sendMessage = useCallback(async (prompt: string, parentSpan?: Span) => {

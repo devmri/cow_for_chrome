@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getLocalValue, setLocalKey, StorageKey } from "../../../lib/storage";
-import { useDynamicConfig } from "@statsig/react-bindings";
 
 interface DomainConfig {
   logo_url: string;
@@ -78,7 +77,7 @@ const MountedTrigger = ({ children, onMount }: { children: React.ReactNode; onMo
 export function InitialScreen({ tabId, onPromptClick }: InitialScreenProps) {
   const [domain, setDomain] = useState("");
   const [isPinned, setIsPinned] = useState<boolean | null>(null);
-  const { value: domainConfigs } = useDynamicConfig("crochet_chips");
+  // domain-specific prompts removed
   const pinExtensionTip = useTip('pin_extension', tabId);
 
   useEffect(() => {
@@ -121,7 +120,7 @@ export function InitialScreen({ tabId, onPromptClick }: InitialScreenProps) {
     return () => chrome.tabs.onUpdated.removeListener(listener);
   }, [tabId]);
 
-  const domainConfig = (domainConfigs as Record<string, DomainConfig>)?.[domain];
+  const domainConfig = undefined as unknown as DomainConfig | undefined;
 
   if (domainConfig) {
     return <DomainSpecificScreen domainConfig={domainConfig} onPromptClick={onPromptClick} />;

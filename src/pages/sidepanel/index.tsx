@@ -3,14 +3,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./components/App";
-import { initSentryForExtension } from "../../lib/sentryService";
-import { initializeTelemetry } from "../../lib/telemetry";
 import { AppProviders } from "../../providers/AppProvider";
 import "../../styles/tailwind.css";
 
-// Initialize Sentry and Telemetry
-initSentryForExtension();
-initializeTelemetry();
+// Removed Sentry and Telemetry initialization
 
 // Get the root element
 const rootElement = document.getElementById("root");

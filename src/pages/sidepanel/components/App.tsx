@@ -26,7 +26,6 @@ import { Message as MessageType, PermissionRequest } from "../types";
 import { DomainCategoryCache } from "../services/domainCache.service";
 import { XIcon, Settings, RefreshCw } from "lucide-react";
 import { CustomTooltip } from "./Tooltip";
-import { useDynamicConfig, useFeatureGate } from "@statsig/react-bindings";
 import { PermissionDuration, PermissionsManager } from "../../../lib/permissions";
 import { SavedPrompt } from "../../../lib/savedPrompts";
 import { useAnalytics } from "../../../providers/AnalyticsProvider";
@@ -64,7 +63,7 @@ export function App() {
     isLoading: isAuthLoading,
     refreshTokenIfNeeded,
   } = useAuth();
-  const { value: modelsConfig } = useDynamicConfig("chrome_ext_models");
+  // Removed dynamic model config; keeping default model selection
   const [selectedModel, setSelectedModel] = useState("claude-sonnet-4-20250514");
   const [sessionId, setSessionId] = useState(() => crypto.randomUUID());
   const [permissionPrompt, setPermissionPrompt] = useState<PermissionRequest | null>(null);
@@ -93,11 +92,11 @@ export function App() {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const { value: canSkipPermissions } = useFeatureGate("crochet_can_skip_permissions");
-  const { value: useDomainTransitionPrompts } = useFeatureGate("chrome_ext_domain_transition_prompts");
-  const { value: canSubmitFeedback } = useFeatureGate("crochet_can_submit_feedback");
-  const { value: canSeeBrowserIndicator } = useFeatureGate("crochet_can_see_browser_indicator");
-  const { value: upsellAntBuild } = useFeatureGate("crochet_upsell_ant_build");
+  const canSkipPermissions = true;
+  const useDomainTransitionPrompts = true;
+  const canSubmitFeedback = true;
+  const canSeeBrowserIndicator = true;
+  const upsellAntBuild = false;
 
   const { analytics } = useAnalytics();
   const [permissionMode, setPermissionMode] = useState("ask");

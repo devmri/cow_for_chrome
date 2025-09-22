@@ -84,7 +84,7 @@ const manifest: chrome.runtime.ManifestV3 = {
   content_security_policy: {
     // 开发模式拼接 ws://localhost:* 以允许 Vite HMR；打包模式不包含这些例外
     extension_pages:
-      ("script-src 'self'; object-src 'self'; connect-src 'self' https://api.anthropic.com https://claude.ai https://console.anthropic.com https://statsig.com https://*.statsig.com https://api.statsig.com https://featuregates.org https://statsigapi.net https://events.statsigapi.net https://api.statsigcdn.com https://featureassets.org https://assetsconfigcdn.org https://prodregistryv2.org https://cloudflare-dns.com https://beyondwickedmapping.org https://api.segment.io https://*.segment.com https://*.ingest.us.sentry.io" +
+      ("script-src 'self'; object-src 'self'; connect-src 'self' https://api.anthropic.com https://claude.ai https://console.anthropic.com" +
         devConnectSrc +
         "; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;"),
   },

@@ -13,7 +13,6 @@ import { Message as MessageType, ToolUse } from "../types";
 import { MarkdownRenderer } from "./MarkdownRenderer";
 import { ToolResult } from "./ToolResult";
 import { CustomTooltip } from "./Tooltip";
-import { useFeatureGate } from "@statsig/react-bindings";
 import { getLocalValue, StorageKey } from "../../../lib/storage";
 import { cn } from "../../../utils/classNames";
 import { ThumbsUpFilledIcon, ThumbsUpIcon, ThumbsDownIcon, ThumbsDownFilledIcon  } from "../../../components/icons";
@@ -52,13 +51,9 @@ export function Message({
   const [showTraceIds, setShowTraceIds] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
-  const { value: defaultDebugMode } = useFeatureGate(
-    "crochet_default_debug_mode",
-  );
-
   useEffect(() => {
     getLocalValue<boolean>(StorageKey.DEBUG_MODE).then((val) => {
-      setDebugMode(val !== undefined ? val : defaultDebugMode || false);
+      setDebugMode(val !== undefined ? val : false);
     });
     getLocalValue<boolean>(StorageKey.SHOW_TRACE_IDS).then((val) => {
       if (val !== undefined) setShowTraceIds(val);
@@ -74,7 +69,7 @@ export function Message({
     };
     chrome.storage.onChanged.addListener(listener);
     return () => chrome.storage.onChanged.removeListener(listener);
-  }, [defaultDebugMode]);
+  }, []);
 
   const textBlocks = Array.isArray(message.content)
     ? message.content.filter((c) => c.type === "text")

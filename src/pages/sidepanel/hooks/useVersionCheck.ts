@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { getLocalValue, StorageKey } from "../../../lib/storage";
-import { useDynamicConfig } from "@statsig/react-bindings";
 
 interface VersionInfo {
   isBlocked: boolean;
@@ -26,7 +25,7 @@ export function useVersionCheck(): VersionInfo {
     minSupportedVersion: null,
   });
   
-  const { value: versionConfig } = useDynamicConfig("chrome_ext_version_info");
+  const versionConfig = null as any;
 
   useEffect(() => {
     const manifest = chrome.runtime.getManifest();
@@ -51,7 +50,7 @@ export function useVersionCheck(): VersionInfo {
   useEffect(() => {
     if (!currentVersion) return;
 
-    const minSupportedVersion: any = versionConfig?.min_supported_version;
+    const minSupportedVersion: any = null;
     
     const isVersionOutdated = !!minSupportedVersion && versionCompare(currentVersion, minSupportedVersion) < 0;
 
@@ -62,7 +61,7 @@ export function useVersionCheck(): VersionInfo {
       minSupportedVersion: minSupportedVersion || null,
     });
 
-  }, [currentVersion, versionConfig, hasUpdate]);
+  }, [currentVersion, hasUpdate]);
 
   return versionInfo;
 }

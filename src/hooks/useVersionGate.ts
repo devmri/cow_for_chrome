@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useDynamicConfig } from '@statsig/react-bindings'
 import { getLocalValue, StorageKey } from '../lib/storage'
 
 export interface VersionGateState {
@@ -13,7 +12,6 @@ export interface VersionGateState {
 export function useVersionGate(): VersionGateState {
   const [currentVersion, setCurrentVersion] = useState('')
   const [hasUpdate, setHasUpdate] = useState(false)
-  const cfg = useDynamicConfig('chrome_ext_version_info')
 
   useEffect(() => {
     const v = chrome.runtime.getManifest().version
@@ -31,7 +29,7 @@ export function useVersionGate(): VersionGateState {
     return () => chrome.storage.onChanged.removeListener(onChanged)
   }, [])
 
-  const minSupportedVersion = (cfg?.get('min_supported_version', '') as string) || null
+  const minSupportedVersion = null
 
   const isBlocked = useMemo(() => {
     if (!currentVersion || !minSupportedVersion) return false
@@ -49,4 +47,3 @@ export function useVersionGate(): VersionGateState {
 
   return { isBlocked, hasUpdate, currentVersion, minSupportedVersion }
 }
-

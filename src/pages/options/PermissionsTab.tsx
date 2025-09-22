@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useFeatureGate } from "@statsig/react-bindings";
 import { permissionService, PermissionItem } from "../../lib/permissions";
 
 // 重构前变量名: R（PermissionsTab）
@@ -12,12 +11,11 @@ export function PermissionsTab() {
     | undefined
   >();
   const [loading, setLoading] = useState(true);
-  const canSkipGate = useFeatureGate("crochet_can_skip_permissions").value;
 
   useEffect(() => {
-    // 允许跳过权限策略（与产物一致）
-    permissionService.setCanSkipPermissions(canSkipGate);
-  }, [canSkipGate]);
+    // Allow skipping permissions unconditionally (gates removed)
+    permissionService.setCanSkipPermissions(true);
+  }, []);
 
   useEffect(() => {
     refresh();

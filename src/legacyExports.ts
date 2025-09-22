@@ -19,7 +19,7 @@ import {
 import ScheduledTaskLogsService from "./lib/scheduledTasks";
 import { withTelemetrySpan, generateTraceHeaders, initializeTelemetry } from "./lib/telemetry";
 import { cn } from "./utils/classNames";
-import { StatsigUserSync } from "./components/StatsigUserSync";
+// Statsig removed
 
 const legacyInterop = <T,>(mod: T): T & { default: T } => {
   if (mod && typeof mod === "object" && "default" in mod) return mod as any;
@@ -96,7 +96,7 @@ const descriptors = {
   p: "lucide-react:IconBase",
   q: PermissionDuration,
   r: React,
-  s: StatsigUserSync,
+  s: undefined as any,
   t: "actionVerb",
   u: permissionService,
   v: "lucide-react:createLucideIcon",

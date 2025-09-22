@@ -1,11 +1,4 @@
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { useFeatureGate, useDynamicConfig } from "@statsig/react-bindings";
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { User, LogOut, Sparkles } from "lucide-react";
 
 import { useCurrentAccount } from "../../providers/CurrentAccountProvider";
@@ -237,59 +230,21 @@ function ApiConfig({
   );
 }
 
-function TelemetryControls({
-  telemetryDisabled,
-  onToggleTelemetry,
-}: {
-  telemetryDisabled: boolean;
-  onToggleTelemetry: () => Promise<void> | void;
-}) {
-  return (
-    <div className="bg-bg-100 border border-border-200 rounded-xl px-6 py-6 md:px-8 md:py-8 space-y-4">
-      <div className="space-y-2">
-        <h3 className="font-xl-bold text-text-100">数据上报设置</h3>
-        <p className="font-base text-text-300">
-          {telemetryDisabled
-            ? "当前已停止向后端发送使用数据，可点击下方按钮重新开启。"
-            : "若希望停止向后端发送使用数据，可以点击下方按钮立即停用。停用后，功能开关将使用本地默认值。"}
-        </p>
-      </div>
-      <button
-        type="button"
-        onClick={onToggleTelemetry}
-        className={cn(
-          "w-full py-2 px-4 rounded-md font-button-lg transition-colors",
-          telemetryDisabled
-            ? "bg-bg-200 text-text-100 hover:bg-bg-300"
-            : "bg-accent-main-200 text-oncolor-100 hover:bg-accent-main-100",
-        )}
-      >
-        {telemetryDisabled ? "恢复数据上报" : "停止数据上报"}
-      </button>
-    </div>
-  );
-}
+// Telemetry controls removed
 
 // 主页面（重构前变量名: sr）
 export function OptionsPage() {
   const { userProfile, isAuthenticated } = useCurrentAccount();
   const { resetAnalytics } = useAnalytics();
-
-  const scheduledGate = useFeatureGate("chrome_scheduled_tasks").value;
-  const showEmailGate = useFeatureGate(
-    "chrome_extension_show_user_email"
-  ).value;
-  const defaultDebugGate = useFeatureGate("crochet_default_debug_mode").value;
-  const allowApiKeyGate = useFeatureGate("chrome_ext_allow_api_key").value;
-  const allowEditSystemPromptGate = useFeatureGate(
-    "chrome_ext_edit_system_prompt"
-  ).value;
-
-  const modelsConfig = useDynamicConfig("chrome_ext_models");
+  // Gates removed: default values
+  const scheduledGate = true;
+  const showEmailGate = true;
+  const defaultDebugGate = false;
+  const allowApiKeyGate = true;
+  const allowEditSystemPromptGate = true;
 
   const [apiKey, setApiKey] = useState("");
   const [apiUrl, setApiUrl] = useState("");
-  const [telemetryDisabled, setTelemetryDisabled] = useState(false);
   const [selectedModel, setSelectedModel] = useState("");
   const [availableModels, setAvailableModels] = useState<string[]>([]);
   const [systemPrompt, setSystemPrompt] = useState("");
@@ -297,13 +252,12 @@ export function OptionsPage() {
   const [saved, setSaved] = useState(false);
   const [activeTab, setActiveTab] = useState<OptionsTab>("permissions");
   const [isMockedAuth, setMockedAuth] = useState(false);
-  const [isMockedStatsig, setMockedStatsig] = useState(false);
+  const [isMockedStatsig, setMockedStatsig] = useState(false); // legacy; will be removed
 
   useEffect(() => {
     getLocalObject<Record<string, any>>([
       StorageKey.ANTHROPIC_API_KEY,
       StorageKey.ANTHROPIC_API_URL,
-      StorageKey.TELEMETRY_DISABLED,
       StorageKey.SELECTED_MODEL,
       StorageKey.SYSTEM_PROMPT,
       StorageKey.DEBUG_MODE,
@@ -314,8 +268,6 @@ export function OptionsPage() {
         setApiKey(store[StorageKey.ANTHROPIC_API_KEY]);
       if (store[StorageKey.ANTHROPIC_API_URL])
         setApiUrl(store[StorageKey.ANTHROPIC_API_URL]);
-      if (store[StorageKey.TELEMETRY_DISABLED] !== undefined)
-        setTelemetryDisabled(!!store[StorageKey.TELEMETRY_DISABLED]);
       if (store[StorageKey.SELECTED_MODEL])
         setSelectedModel(store[StorageKey.SELECTED_MODEL]);
       if (store[StorageKey.SYSTEM_PROMPT])
@@ -343,9 +295,6 @@ export function OptionsPage() {
       if (StorageKey.MOCK_STATSIG_ENABLED in changes) {
         setMockedStatsig(!!changes[StorageKey.MOCK_STATSIG_ENABLED].newValue);
       }
-      if (StorageKey.TELEMETRY_DISABLED in changes) {
-        setTelemetryDisabled(!!changes[StorageKey.TELEMETRY_DISABLED].newValue);
-      }
     };
     chrome.storage.onChanged.addListener(syncMockFlags);
     return () => chrome.storage.onChanged.removeListener(syncMockFlags);
@@ -365,9 +314,12 @@ export function OptionsPage() {
   }, []);
 
   useEffect(() => {
-    const options = (modelsConfig.value as { options?: string[] } | undefined)?.options;
-    if (Array.isArray(options)) setAvailableModels(options);
-  }, [modelsConfig.value]);
+    setAvailableModels([
+      "claude-sonnet-4-20250514",
+      "claude-3-5-sonnet-latest",
+      "claude-3-haiku-20240307",
+    ]);
+  }, []);
 
   useEffect(() => {
     setLocalKey(StorageKey.SCHEDULED_TASKS_ENABLED, scheduledGate);
@@ -378,18 +330,7 @@ export function OptionsPage() {
     window.location.hash = tab;
   }, []);
 
-  const toggleTelemetry = useCallback(async () => {
-    const next = !telemetryDisabled;
-    if (next) {
-      await setLocalKey(StorageKey.TELEMETRY_DISABLED, true);
-    } else {
-      await removeLocal([StorageKey.TELEMETRY_DISABLED]);
-    }
-    setTelemetryDisabled(next);
-  }, [telemetryDisabled]);
-
-  const showContent =
-    isAuthenticated || !!apiKey || isMockedAuth || isMockedStatsig;
+  const showContent = isAuthenticated || !!apiKey || isMockedAuth;
 
   const navItems = useMemo(
     () =>
@@ -397,12 +338,12 @@ export function OptionsPage() {
         {
           key: "api" as OptionsTab,
           label: "API configuration (internal)",
-          visible: allowApiKeyGate || isMockedAuth || isMockedStatsig,
+          visible: allowApiKeyGate || isMockedAuth,
         },
         {
           key: "model" as OptionsTab,
           label: "Model selection (internal)",
-          visible: allowApiKeyGate || isMockedAuth || isMockedStatsig,
+          visible: allowApiKeyGate || isMockedAuth,
         },
         {
           key: "permissions" as OptionsTab,
@@ -417,15 +358,15 @@ export function OptionsPage() {
         {
           key: "scheduled" as OptionsTab,
           label: "Scheduled tasks (internal)",
-          visible: scheduledGate || isMockedAuth || isMockedStatsig,
+          visible: scheduledGate || isMockedAuth,
         },
         {
           key: "testdata" as OptionsTab,
           label: "Test Data (Dev Only)",
-          visible: allowApiKeyGate || isMockedAuth || isMockedStatsig,
+          visible: allowApiKeyGate || isMockedAuth,
         },
       ].filter((item) => item.visible),
-    [allowApiKeyGate, isMockedAuth, isMockedStatsig, scheduledGate]
+    [allowApiKeyGate, isMockedAuth, scheduledGate]
   );
 
   return (
@@ -436,7 +377,7 @@ export function OptionsPage() {
         mdTitle={showContent ? "Cow for Chrome settings" : undefined}
         sticky
       >
-        {isAuthenticated && userProfile && showEmailGate && (
+        {isAuthenticated && userProfile && (
           <div className="flex items-center gap-2 px-3 py-2 bg-bg-000 border border-border-200 rounded-lg">
             <User className="w-4 h-4 text-text-300" />
             <span className="font-base-sm text-text-200">
@@ -546,8 +487,7 @@ export function OptionsPage() {
             </nav>
 
             <div className="space-y-6">
-              {activeTab === "api" &&
-                (allowApiKeyGate || isMockedAuth || isMockedStatsig) && (
+              {activeTab === "api" && (
                 <ApiConfig
                   apiKey={apiKey}
                   apiUrl={apiUrl}
@@ -571,8 +511,7 @@ export function OptionsPage() {
                 />
               )}
 
-              {activeTab === "model" &&
-                (allowApiKeyGate || isMockedAuth || isMockedStatsig) && (
+              {activeTab === "model" && (
                 <ModelPromptConfig
                   selectedModel={selectedModel}
                   setSelectedModel={setSelectedModel}
@@ -604,22 +543,14 @@ export function OptionsPage() {
 
               {activeTab === "prompts" && <ShortcutsTab />}
 
-              {activeTab === "scheduled" &&
-                (scheduledGate || isMockedAuth || isMockedStatsig) && (
+              {activeTab === "scheduled" && scheduledGate && (
                 <ScheduledTasksTab />
               )}
 
-              {activeTab === "testdata" &&
-                (allowApiKeyGate || isMockedAuth || isMockedStatsig) && (
+              {activeTab === "testdata" && (allowApiKeyGate || isMockedAuth) && (
                 <TestDataTab />
               )}
             </div>
-            </div>
-            <div className="max-w-6xl my-8">
-              <TelemetryControls
-                telemetryDisabled={telemetryDisabled}
-                onToggleTelemetry={toggleTelemetry}
-              />
             </div>
           </>
         ) : (
@@ -631,23 +562,16 @@ export function OptionsPage() {
                 try {
                   await setLocalObject({
                     [StorageKey.MOCK_AUTH_ENABLED]: true,
-                    [StorageKey.MOCK_STATSIG_ENABLED]: true,
                   });
                 } finally {
                   setMockedAuth(true);
-                  setMockedStatsig(true);
                 }
               }}
               className="mt-6 px-4 py-2 rounded-lg bg-accent-main-200 text-oncolor-100 font-button-lg hover:bg-accent-main-100 transition-colors"
             >
               一键开启模拟模式
             </button>
-            <div className="w-full max-w-md mt-8">
-              <TelemetryControls
-                telemetryDisabled={telemetryDisabled}
-                onToggleTelemetry={toggleTelemetry}
-              />
-            </div>
+            
           </div>
         )}
       </Container>
