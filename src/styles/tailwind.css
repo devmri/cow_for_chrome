@@ -103,35 +103,35 @@
     --font-ui-serif: "Copernicus", Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Courier New", monospace;
     --font-claude-response: "Tiempos Text", Georgia, Cambria, "Times New Roman", Times, serif;
-    /* 中性色 - 文本 */
+    /* 中性色 - 文本（更清新的冷灰系） */
     --text-000: 0 0% 100%;
-    --text-100: 0 0% 10%;   /* 更接近原始深色 */
-    --text-200: 0 0% 26%;   /* 更接近原始 */
-    --text-300: 0 0% 45%;   /* #737373 */
-    --text-400: 0 0% 60%;   /* #999999 */
+    --text-100: 222 47% 11%;  /* slate-900 */
+    --text-200: 215 20% 25%;  /* slate-700-ish */
+    --text-300: 215 16% 45%;  /* slate-500 */
+    --text-400: 215 13% 62%;  /* slate-400 */
 
-    /* 中性色 - 背景 */
-    --bg-000: 0 0% 100%;   /* #fff */
-    --bg-100: 60 5% 98%;   /* 近白 */
-    --bg-200: 60 5% 96%;
-    --bg-300: 60 5% 92%;
-    --bg-400: 60 5% 85%;
+    /* 中性色 - 背景（偏冷的浅蓝灰，通透感） */
+    --bg-000: 0 0% 100%;      /* #fff */
+    --bg-100: 210 40% 98%;    /* 近白偏蓝 */
+    --bg-200: 210 40% 96%;
+    --bg-300: 210 36% 92%;
+    --bg-400: 210 30% 88%;
 
-    /* 中性色 - 边框 */
-    --border-100: 0 0% 92%;
-    --border-200: 0 0% 88%;
-    --border-300: 0 0% 82%;
-    --border-400: 0 0% 74%;
+    /* 中性色 - 边框（淡蓝灰，轻盈分隔） */
+    --border-100: 210 25% 92%;
+    --border-200: 210 20% 86%;
+    --border-300: 210 16% 80%;
+    --border-400: 210 14% 72%;
 
-    /* 主色与语义色（可按需微调） */
-    --accent-main-100: 262 83% 67%;
-    --accent-main-200: 262 83% 60%;
-    --accent-main-900: 262 83% 92%;
-    --accent-secondary-200: 200 90% 45%;
+    /* 主色与语义色（薄荷绿 + 紫色点缀） */
+    --accent-main-100: 166 72% 50%;  /* mint/emerald hover */
+    --accent-main-200: 166 78% 43%;  /* mint/emerald primary */
+    --accent-main-900: 166 60% 93%;  /* very light mint background */
+    --accent-secondary-200: 262 83% 60%; /* purple for gradients */
 
-    --danger-000: 0 84% 60%;
-    --danger-100: 0 84% 70%;
-    --danger-200: 0 84% 50%;
+    --danger-000: 0 72% 55%;
+    --danger-100: 0 75% 65%;
+    --danger-200: 0 78% 50%;
     --danger-900: 0 84% 95%;
 
     --oncolor-100: 0 0% 100%;
@@ -140,51 +140,44 @@
   /* 跟随系统暗色模式：覆盖 CSS 变量（对齐你提供的 Token） */
   @media (prefers-color-scheme: dark) {
     :root {
-      /* 背景 */
-      --bg-000: 60 2.1% 18.4%;
-      --bg-100: 60 2.7% 14.5%;
-      --bg-200: 30 3.3% 11.8%;
-      --bg-300: 60 2.6% 7.6%;
-      --bg-400: 60 3.4% 5.7%;
-      --bg-500: 60 3.4% 5.7%;
+      /* 背景（深色的冷灰蓝系） */
+      --bg-000: 222 22% 16%;
+      --bg-100: 222 22% 12%;
+      --bg-200: 222 22% 10%;
+      --bg-300: 222 24% 8%;
+      --bg-400: 222 26% 6%;
+      --bg-500: 222 28% 5%;
 
       /* 文本 */
-      --text-000: 48 33.3% 97.1%;
-      --text-100: 48 33.3% 97.1%;
-      --text-200: 50 9% 73.7%;
-      --text-300: 50 9% 73.7%;
-      --text-400: 48 4.8% 59.2%;
-      --text-500: 48 4.8% 59.2%;
+      --text-000: 210 40% 98%;
+      --text-100: 210 40% 98%;
+      --text-200: 215 16% 70%;
+      --text-300: 215 16% 62%;
+      --text-400: 215 12% 48%;
+      --text-500: 215 12% 48%;
 
-      /* 品牌与强调色 */
-      --accent-brand: 15 63.1% 59.6%;
-      --accent-main-000: 15 55.6% 52.4%;
-      --accent-main-100: 15 63.1% 59.6%;
-      --accent-main-200: 15 63.1% 59.6%;
-      --accent-main-900: 0 0% 0%;
+      /* 强调色（薄荷绿为主，紫色为辅） */
+      --accent-main-000: 166 80% 46%;
+      --accent-main-100: 166 75% 52%;
+      --accent-main-200: 166 80% 46%;
+      --accent-main-900: 166 30% 18%;
 
-      --accent-secondary-000: 210 71.1% 62%;
-      --accent-secondary-100: 210 70.9% 51.6%;
-      --accent-secondary-200: 210 70.9% 51.6%;
-      --accent-secondary-900: 210 55.9% 24.6%;
+      --accent-secondary-000: 262 75% 72%;
+      --accent-secondary-100: 262 70% 60%;
+      --accent-secondary-200: 262 70% 60%;
+      --accent-secondary-900: 262 45% 24%;
 
       /* 边框 */
-      --border-100: 51 16.5% 84.5%;
-      --border-200: 51 16.5% 84.5%;
-      --border-300: 51 16.5% 84.5%;
-      --border-400: 51 16.5% 84.5%;
+      --border-100: 215 20% 28%;
+      --border-200: 215 20% 24%;
+      --border-300: 215 20% 20%;
+      --border-400: 215 20% 18%;
 
       /* 警示 */
-      --danger-000: 0 73.1% 66.5%;
-      --danger-100: 0 58.6% 34.1%;
-      --danger-200: 0 58.6% 34.1%;
-      --danger-900: 0 23% 15.6%;
-
-      /* 专业（Pro）色板 */
-      --accent-pro-000: 251 84.6% 74.5%;
-      --accent-pro-100: 251 40.2% 54.1%;
-      --accent-pro-200: 251 40% 45.1%;
-      --accent-pro-900: 250 25.3% 19.4%;
+      --danger-000: 0 72% 60%;
+      --danger-100: 0 58% 44%;
+      --danger-200: 0 58% 38%;
+      --danger-900: 0 28% 18%;
 
       /* 反色文本 */
       --oncolor-100: 0 0% 100%;

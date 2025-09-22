@@ -18,20 +18,20 @@ export function OnboardingScreen({ onAccept }: OnboardingScreenProps) {
         <div className="w-full h-screen bg-bg-100 flex items-center justify-center p-5">
             <div className="max-w-[520px] w-full">
                 <h1 className="text-center text-text-300 mb-[22px]" style={{ fontFamily: 'Copernicus, var(--font-ui-serif)', fontSize: '26px', fontWeight: 500, lineHeight: '130%', letterSpacing: '-0.65px' }}>
-                    Claude can now<br />control your browser
+                    Let ai<br />control your browser
                 </h1>
                 <div className="border border-border-300 rounded-[24px] mb-[22px]">
                     <div className="flex gap-3 pt-5 pb-4 px-4">
                         <div className="mt-0.5"><ShieldIconSolid size={20} className="text-text-100" /></div>
                         <p className="text-[12px] text-text-300 flex-1 leading-[140%]">
-                            Claude can view the URL of tabs where the panel is open and take screenshots when responding. For privacy, avoid using Claude on sensitive sites like health and dating platforms.
+                            LLM can view the URL of tabs where the panel is open and take screenshots when responding. For privacy, avoid using LLM on sensitive sites like health and dating platforms.
                         </p>
                     </div>
                     <div className="border-t-[0.5px] border-border-300 px-4" />
                     <div className="flex gap-3 py-4 px-4">
                         <div className="mt-0.5"><SparkleIcon size={20} className="text-text-100" /></div>
                         <p className="text-[12px] text-text-300 flex-1 leading-[140%]">
-                            This is a beta feature with unique risks distinct from other Claude products. You are fully responsible for all risks associated with use of this product.
+                            This is a beta feature with unique risks distinct from other llm products. You are fully responsible for all risks associated with use of this product.
                         </p>
                     </div>
                     <div className="border-t-[0.5px] border-border-300 px-4" />

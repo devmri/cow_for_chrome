@@ -129,7 +129,7 @@ export function ChatInput({
   }, [closeSlashMenu, inputValue, onSavePrompt]);
 
   const placeholder = hasMessages
-    ? "Reply to Claude"
+    ? "Reply to Cow"
     : "What can I do for you?";
 
   return (

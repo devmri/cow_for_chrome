@@ -504,7 +504,7 @@ export function App() {
     <div className="relative h-screen">
         <ActiveBorder isActive={skipAllPermissions} />
         <div className="flex flex-col h-screen bg-bg-100 relative overflow-hidden">
-            <div className="flex justify-between items-center px-4 pt-4 pb-3">
+            <div className="flex justify-between items-center px-4 pt-4 pb-3 bg-gradient-to-r from-accent-main-900/70 via-accent-secondary-200/10 to-transparent border-b border-border-200/60 rounded-b-xl shadow-sm">
                 <div className="flex items-center gap-3">
                     <span className="text-[12px] text-text-300 font-ui font-normal leading-[140%] tracking-[-0.3px]">Research preview</span>
                 </div>
@@ -715,7 +715,7 @@ export function App() {
                                     setSubmittedFeedback(newMap);
                                 }
                                 if (!canSubmitFeedback) return;
-                                analytics?.track("claude_chrome.chat.feedback", { ...feedbackData, session_id: sessionId, permissions: permissionMode });
+                                // analytics?.track("claude_chrome.chat.feedback", { ...feedbackData, session_id: sessionId, permissions: permissionMode });
                             } catch(e) {/* ignore */}
                         }}
                         feedbackType={feedbackType}

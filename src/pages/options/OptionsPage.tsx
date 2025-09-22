@@ -45,7 +45,7 @@ function NavItem({
         "block w-full text-left whitespace-nowrap transition-all ease-in-out active:scale-95",
         "font-base rounded-lg px-3 py-3",
         isActive
-          ? "bg-bg-300 font-medium text-text-000"
+          ? "bg-accent-main-200 text-oncolor-100 font-medium shadow-sm"
           : "text-text-200 hover:bg-bg-200 hover:text-text-100"
       )}
     >
@@ -102,7 +102,7 @@ function PageHeader({
   return (
     <header
       className={cn(
-        "flex w-full bg-bg-100",
+        "flex w-full bg-gradient-to-r from-accent-main-900/70 via-accent-secondary-200/10 to-transparent border-b border-border-200/60",
         sticky && "sticky top-0 z-50",
         fixed && "fixed top-0 z-50",
         "h-12",
@@ -164,7 +164,7 @@ function ApiConfig({
   return (
     <div className="max-w-md">
       <h2 className="font-xl-bold text-text-100 mb-4">
-        API configuration (internal)
+        API configuration
       </h2>
       <div className="space-y-4">
         <div>
@@ -336,14 +336,24 @@ export function OptionsPage() {
     () =>
       [
         {
+          key: "testdata" as OptionsTab,
+          label: "For test",
+          visible: allowApiKeyGate || isMockedAuth,
+        },
+        {
           key: "api" as OptionsTab,
-          label: "API configuration (internal)",
+          label: "API",
           visible: allowApiKeyGate || isMockedAuth,
         },
         {
           key: "model" as OptionsTab,
-          label: "Model selection (internal)",
+          label: "Model",
           visible: allowApiKeyGate || isMockedAuth,
+        },
+        {
+          key: "prompts" as OptionsTab,
+          label: "Prompts",
+          visible: true,
         },
         {
           key: "permissions" as OptionsTab,
@@ -351,19 +361,9 @@ export function OptionsPage() {
           visible: true,
         },
         {
-          key: "prompts" as OptionsTab,
-          label: "Shortcuts",
-          visible: true,
-        },
-        {
           key: "scheduled" as OptionsTab,
-          label: "Scheduled tasks (internal)",
+          label: "Scheduled tasks",
           visible: scheduledGate || isMockedAuth,
-        },
-        {
-          key: "testdata" as OptionsTab,
-          label: "Test Data (Dev Only)",
-          visible: allowApiKeyGate || isMockedAuth,
         },
       ].filter((item) => item.visible),
     [allowApiKeyGate, isMockedAuth, scheduledGate]
